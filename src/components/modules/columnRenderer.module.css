@@ -1,0 +1,73 @@
+.label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #888;
+  margin-bottom: 12px;
+  font-family: 'Oswald', sans-serif;
+}
+
+/* ── Text column ── */
+.columnText {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  border-right: 1px solid #1a1a1a;
+}
+
+.columnHeading {
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.columnBody {
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.8;
+  color: #444;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ── Image column ── */
+.columnImage {
+  display: flex;
+  flex-direction: column;
+}
+
+.columnImageInner {
+  position: relative;
+  flex: 1;
+  min-height: 400px;
+}
+
+.img {
+  object-fit: cover;
+}
+
+.imageCaption {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+  padding: 12px 20px;
+  margin: 0;
+  border-top: 0.5px solid #ddd;
+}
+
+/* ══ MOBILE ═══════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .columnText {
+    padding: 48px 24px;
+    border-right: none;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .columnImageInner {
+    min-height: 300px;
+  }
+}

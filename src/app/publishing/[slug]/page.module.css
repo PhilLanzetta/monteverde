@@ -1,0 +1,197 @@
+.page {
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #888;
+  margin-bottom: 12px;
+  font-family: 'Oswald', sans-serif;
+}
+
+/* ── Hero ── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 80vh;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.heroLeft {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  border-right: 1px solid #1a1a1a;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.heroDescription {
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.8;
+  color: #444;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.purchaseBtn {
+  display: inline-block;
+  padding: 12px 40px;
+  border: 1px solid #1a1a1a;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-family: 'Oswald', sans-serif;
+  align-self: flex-start;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.purchaseBtn:hover {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+/* ── Authors ── */
+.authors {
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.author {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #1a1a1a;
+  min-height: 500px;
+}
+
+.author:last-child {
+  border-bottom: none;
+}
+
+.author:nth-child(even) .authorImage {
+  order: 2;
+}
+
+.author:nth-child(even) .authorInfo {
+  order: 1;
+}
+
+.authorImage {
+  position: relative;
+  min-height: 400px;
+}
+
+.authorInfo {
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.authorName {
+  font-size: clamp(24px, 3vw, 42px);
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 0;
+  color: #1a1a1a;
+}
+
+.authorBio {
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.8;
+  color: #444;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ── Gallery ── */
+.gallery {
+  padding: 80px 60px;
+}
+
+.galleryHeading {
+  font-size: clamp(20px, 2.5vw, 36px);
+  font-weight: 400;
+  margin: 0 0 40px;
+  color: #1a1a1a;
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.galleryItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.galleryImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+}
+
+/* ══ MOBILE ═══════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .heroLeft {
+    padding: 48px 24px;
+    border-right: none;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .heroRight {
+    min-height: 360px;
+  }
+
+  .author {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .author:nth-child(even) .authorImage,
+  .author:nth-child(even) .authorInfo {
+    order: unset;
+  }
+
+  .authorImage {
+    min-height: 300px;
+  }
+
+  .authorInfo {
+    padding: 40px 24px;
+  }
+
+  .gallery {
+    padding: 48px 24px;
+  }
+
+  .galleryGrid {
+    grid-template-columns: 1fr;
+  }
+}

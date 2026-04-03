@@ -1,0 +1,62 @@
+.page {
+  font-family: 'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #888;
+  margin-bottom: 12px;
+  font-family: 'Oswald', sans-serif;
+}
+
+/* ── Standalone headingAndText ── */
+.standaloneText {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.standaloneHeading {
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0 0 24px;
+  color: #1a1a1a;
+}
+
+.standaloneBody {
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.8;
+  color: #444;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ── Two column ── */
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #1a1a1a;
+  min-height: 60vh;
+}
+
+/* ── Remove border-right from last column ── */
+.twoColumn > *:last-child {
+  border-right: none;
+}
+
+/* ══ MOBILE ═══════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .standaloneText {
+    padding: 48px 24px;
+  }
+
+  .twoColumn {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
