@@ -3,7 +3,9 @@ import LandingOverlay from '@/components/layout/landingOverlay'
 export default function Home() {
   return (
     <main>
-      <LandingOverlay />
+      <div suppressHydrationWarning>
+        <LandingOverlay />
+      </div>
       {/* rest of page content */}
     </main>
   )
