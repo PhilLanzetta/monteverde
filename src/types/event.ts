@@ -93,7 +93,10 @@ export type EventSkeleton = EntrySkeletonType<
   {
     title: EntryFieldTypes.Text
     slug: EntryFieldTypes.Text
+    date: EntryFieldTypes.Date
     heroImage: EntryFieldTypes.AssetLink
+    tileImage: EntryFieldTypes.AssetLink
+    tileText: EntryFieldTypes.Text
     content: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<EntrySkeletonType>>
   },
   'event'
