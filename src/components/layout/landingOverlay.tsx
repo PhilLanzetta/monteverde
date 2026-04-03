@@ -38,6 +38,7 @@ export default function LandingOverlay() {
   const [gone, setGone] = useState(false)
   const fadingRef = useRef(false)
   const overlayRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef<any>(null)
 
   useEffect(() => {
     if (!show) return
@@ -47,6 +48,11 @@ export default function LandingOverlay() {
   useEffect(() => {
     if (gone) unlockScroll()
   }, [gone])
+
+  function handleImageLoad() {
+    removeBlocker()
+    playerRef.current?.play()
+  }
 
   function dismiss() {
     if (fadingRef.current) return
@@ -71,12 +77,13 @@ export default function LandingOverlay() {
         fill
         priority
         className={styles.bgImage}
-        onLoad={removeBlocker}
+        onLoad={handleImageLoad}
       />
 
       <div className={styles.logoWrap}>
         <Player
-          autoplay
+          ref={playerRef}
+          autoplay={false}
           src='/logoAnimation.json'
           className={styles.player}
           onEvent={(event) => {
