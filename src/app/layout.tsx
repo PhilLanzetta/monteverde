@@ -16,6 +16,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <link
+          rel='preload'
+          href='/PACIFIC_MONTEVERDE_BG_IMAGE-01.webp'
+          as='image'
+        />
+      </head>
       <body>
         <Script
           id='blocker-init'

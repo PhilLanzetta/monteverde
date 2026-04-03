@@ -35,10 +35,10 @@ export default function LandingOverlay() {
     if (typeof window === 'undefined') return false
     return localStorage.getItem('overlayShown') !== 'true'
   })
+  const [imageLoaded, setImageLoaded] = useState(false)
   const [gone, setGone] = useState(false)
   const fadingRef = useRef(false)
   const overlayRef = useRef<HTMLDivElement>(null)
-  const playerRef = useRef<any>(null)
 
   useEffect(() => {
     if (!show) return
@@ -51,7 +51,7 @@ export default function LandingOverlay() {
 
   function handleImageLoad() {
     removeBlocker()
-    playerRef.current?.play()
+    setImageLoaded(true)
   }
 
   function dismiss() {
@@ -72,7 +72,7 @@ export default function LandingOverlay() {
   return (
     <div ref={overlayRef} className={styles.overlay} onClick={dismiss}>
       <Image
-        src='/PACIFIC_MONTEVERDE_BG_IMAGE-01.png'
+        src='/PACIFIC_MONTEVERDE_BG_IMAGE-01.webp'
         alt=''
         fill
         priority
@@ -81,15 +81,16 @@ export default function LandingOverlay() {
       />
 
       <div className={styles.logoWrap}>
-        <Player
-          ref={playerRef}
-          autoplay={false}
-          src='/logoAnimation.json'
-          className={styles.player}
-          onEvent={(event) => {
-            if (event === 'complete') dismiss()
-          }}
-        />
+        {imageLoaded && (
+          <Player
+            autoplay
+            src='/logoAnimation.json'
+            className={styles.player}
+            onEvent={(event) => {
+              if (event === 'complete') dismiss()
+            }}
+          />
+        )}
       </div>
     </div>
   )
