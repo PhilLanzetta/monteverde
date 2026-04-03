@@ -1,26 +1,29 @@
-import styles from './footer.module.css';
+import styles from './footer.module.css'
 
 const CONTACT = {
   instagram: '@monteverde',
   email: 'info@monteverde-productions.com',
   pressEmail: 'press@monteverde-productions.com',
-};
+}
 
 const LEGAL =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec ante nulla. Cras ut mauris eget leo interdum pulvinar non porttitor dui.';
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec ante nulla. Cras ut mauris eget leo interdum pulvinar non porttitor dui.'
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-
-      <div className={styles.logoMark} aria-label="Monteverde logo">
+      <div className={styles.logoMark} aria-label='Monteverde logo'>
         <MonteVerdeLogoMark />
       </div>
 
       <address className={styles.contact}>
         <p>
           <em>Instagram:</em>{' '}
-          <a href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`} target="_blank" rel="noreferrer">
+          <a
+            href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`}
+            target='_blank'
+            rel='noreferrer'
+          >
             {CONTACT.instagram}
           </a>
         </p>
@@ -35,33 +38,149 @@ export default function Footer() {
       </address>
 
       <p className={styles.legal}>{LEGAL}</p>
-
     </footer>
-  );
+  )
 }
 
 function MonteVerdeLogoMark() {
   return (
-    <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect x="1" y="1" width="54" height="54" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="4"  y="8"  width="4" height="32" fill="currentColor" />
-      <rect x="10" y="14" width="4" height="26" fill="currentColor" />
-      <rect x="16" y="20" width="4" height="20" fill="currentColor" />
-      <rect x="22" y="14" width="4" height="26" fill="currentColor" />
-      <rect x="28" y="8"  width="4" height="32" fill="currentColor" />
-      <rect x="34" y="14" width="4" height="26" fill="currentColor" />
-      <rect x="40" y="20" width="4" height="20" fill="currentColor" />
-      <rect x="46" y="14" width="4" height="26" fill="currentColor" />
-      <text
-        x="28" y="52"
-        fontFamily="Oswald, sans-serif"
-        fontSize="7"
-        letterSpacing="1.5"
-        textAnchor="middle"
-        fill="currentColor"
-      >
-        MONTEVERDE
-      </text>
+    <svg
+      viewBox='0 0 128 131'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+      aria-hidden='true'
+    >
+      <g clipPath='url(#clip0_382_1865)'>
+        <path
+          d='M14.9941 119.846L12.6039 111.55H8.71973V112.32H10.0551V122.964H8.71973V123.734H12.2929V122.964H10.9575V113.497L14.0002 123.734H14.7319L17.9027 113.46V122.964H16.5307V123.734H21.3478V122.964H19.9941V112.32H21.3478V111.55H17.4819L14.9941 119.846Z'
+          fill='currentColor'
+        />
+        <path
+          d='M26.6589 111.283C23.7443 111.283 21.3662 114.128 21.3662 117.627C21.3662 120.696 23.3906 124.007 26.6589 124.007C29.9272 124.007 31.9516 120.696 31.9516 117.627C31.9516 114.558 29.9272 111.283 26.6589 111.283ZM29.5552 117.645C29.5552 119.113 29.4455 120.229 29.226 121.066C28.8357 122.539 28.0186 123.231 26.665 123.231C25.8418 123.231 25.2565 123 24.8296 122.515C24.0918 121.69 23.7747 120.235 23.7747 117.645C23.7747 115.735 23.9455 114.455 24.3113 113.612C24.7504 112.569 25.5126 112.059 26.6528 112.059C28.4516 112.059 29.5613 112.993 29.5613 117.645H29.5552Z'
+          fill='currentColor'
+        />
+        <path
+          d='M39.0184 112.32H40.4086V119.683L35.6099 111.55H31.8477V112.32H33.2379V122.964H31.8477V123.734H35.5062V122.964H34.1403V113.108L40.555 124.001H41.3111V112.32H42.6769V111.55H39.0184V112.32Z'
+          fill='currentColor'
+        />
+        <path
+          d='M43.4392 111.55L43.2197 115.334H44.0307L44.0856 115.043C44.1466 114.716 44.2136 114.382 44.2868 114.061C44.5307 113.017 44.9148 112.326 46.0124 112.326H47.11V122.97H45.6344V123.746H50.6831V122.97H49.2075V112.326H49.7502C51.5307 112.326 52.0368 113.466 52.2563 115.177L52.2746 115.334H53.0917L52.9514 111.55H43.4392Z'
+          fill='currentColor'
+        />
+        <path
+          d='M62.5066 120.21C62.0858 122.406 61.7078 122.964 59.2383 122.964H57.1285V117.863C58.9517 117.875 59.2748 118.355 59.3785 119.834L59.3907 120.004H60.1407V115.158H59.4029L59.3785 115.316C59.1712 116.79 58.8785 117.051 57.3907 117.051H57.1285V112.32H59.3785C61.3541 112.32 61.8663 113.169 62.098 114.643L62.1224 114.801H62.8541V111.55H53.4639V112.326H55.0309V122.97H53.4639V123.746H63.0919L63.348 120.071H62.537L62.5066 120.222V120.21Z'
+          fill='currentColor'
+        />
+        <path
+          d='M70.9213 112.32H72.47L69.8359 120.435L67.092 112.32H68.4091V111.55H63.5371V112.32H64.8847L68.8725 124.001H69.5859L73.3542 112.32H74.6713V111.55H70.9213V112.32Z'
+          fill='currentColor'
+        />
+        <path
+          d='M84.5307 120.21C84.11 122.406 83.7319 122.964 81.2624 122.964H79.1527V117.863C80.9758 117.875 81.299 118.355 81.4027 119.834L81.4149 120.004H82.1649V115.158H81.4271L81.4027 115.316C81.1954 116.79 80.9027 117.051 79.4149 117.051H79.1527V112.32H81.4088C83.3844 112.32 83.8966 113.169 84.1283 114.643L84.1527 114.801H84.8844V111.55H75.4941V112.326H77.0612V122.97H75.4941V123.746H85.1222L85.3783 120.071H84.5673L84.5368 120.222L84.5307 120.21Z'
+          fill='currentColor'
+        />
+        <path
+          d='M96.0678 123.067C95.4214 123.067 95.2934 122.533 95.2934 121.678C95.2934 121.49 95.3056 121.326 95.3178 121.193C95.3239 121.09 95.33 120.993 95.33 120.92C95.33 118.749 94.3422 117.839 92.7019 117.305C94.7812 116.959 95.7568 116.007 95.7568 114.339C95.7568 112.672 94.1897 111.556 91.7629 111.556H86.208V112.332H87.58V122.976H86.208V123.752H91.08V122.976H89.6714V117.572H90.4641C91.8909 117.572 92.6104 118.027 92.7934 119.052C92.8421 119.306 92.8848 119.695 92.9214 120.071C92.9397 120.228 92.9519 120.386 92.9702 120.519L93.0251 121.071C93.0617 121.447 93.0921 121.732 93.1287 122.042C93.2995 123.491 94.5129 124.007 95.5007 124.007C95.9946 124.007 96.6226 123.879 97.2202 123.661L97.3422 123.619V122.782L97.0921 122.879C96.7385 123.012 96.4031 123.079 96.0739 123.079L96.0678 123.067ZM89.6653 112.32H91.2263C92.8422 112.32 93.4458 112.878 93.4458 114.382C93.4458 116.201 92.8056 116.784 90.7995 116.784H89.6653V112.32Z'
+          fill='currentColor'
+        />
+        <path
+          d='M103.073 111.55H98.0674V112.326H99.4393V122.97H98.0674V123.746H103.037C104.976 123.746 106.372 123.134 107.311 121.866C108.293 120.562 108.756 119.185 108.756 117.542C108.756 113.958 106.476 111.556 103.073 111.556V111.55ZM101.537 112.32H102.634C104.494 112.32 105.628 112.969 106.092 114.303C106.336 114.995 106.439 115.874 106.439 117.251V117.712C106.439 118.361 106.403 120.532 105.964 121.363C105.348 122.515 104.519 122.964 102.994 122.964H101.543V112.32H101.537Z'
+          fill='currentColor'
+        />
+        <path
+          d='M117.921 120.059L117.89 120.21C117.469 122.406 117.091 122.964 114.622 122.964H112.512V117.863C114.335 117.875 114.658 118.355 114.762 119.834L114.774 120.004H115.524V115.158H114.786L114.762 115.316C114.555 116.79 114.262 117.051 112.774 117.051H112.512V112.32H114.768C116.744 112.32 117.256 113.169 117.488 114.643L117.512 114.801H118.244V111.55H108.854V112.326H110.421V122.97H108.854V123.746H118.482L118.738 120.071H117.927L117.921 120.059Z'
+          fill='currentColor'
+        />
+        <path
+          d='M52.2007 107.008V43.6182H48.0117V107.008H52.2007Z'
+          fill='currentColor'
+        />
+        <path
+          d='M57.7867 107.008V64.9785H53.5977V107.008H57.7867Z'
+          fill='currentColor'
+        />
+        <path
+          d='M63.3716 107.007V77.3809H59.1826V107.007H63.3716Z'
+          fill='currentColor'
+        />
+        <path
+          d='M69.6587 107.007V77.3809H65.4697V107.007H69.6587Z'
+          fill='currentColor'
+        />
+        <path
+          d='M75.0855 107.008V64.9785H70.8965V107.008H75.0855Z'
+          fill='currentColor'
+        />
+        <path
+          d='M80.5181 107.008V43.6182H76.3291V107.008H80.5181Z'
+          fill='currentColor'
+        />
+        <path
+          d='M13.0914 106.316V8.47852H8.90234V106.316H13.0914Z'
+          fill='currentColor'
+        />
+        <path
+          d='M18.6832 106.316V8.47852H14.4941V106.316H18.6832Z'
+          fill='currentColor'
+        />
+        <path
+          d='M24.2681 106.316V8.47852H20.0791V106.316H24.2681Z'
+          fill='currentColor'
+        />
+        <path
+          d='M107.676 106.316V8.47852H103.487V106.316H107.676Z'
+          fill='currentColor'
+        />
+        <path
+          d='M113.103 106.316V8.47852H108.914V106.316H113.103Z'
+          fill='currentColor'
+        />
+        <path
+          d='M118.537 106.316V8.47852H114.348V106.316H118.537Z'
+          fill='currentColor'
+        />
+        <path
+          d='M46.6099 89.783V26.3936H42.4209V89.783H46.6099Z'
+          fill='currentColor'
+        />
+        <path
+          d='M85.9507 89.783V26.3936H81.7617V89.783H85.9507Z'
+          fill='currentColor'
+        />
+        <path
+          d='M41.024 71.868V8.47852H36.835V71.868H41.024Z'
+          fill='currentColor'
+        />
+        <path
+          d='M91.3843 71.868V8.47852H87.1953V71.868H91.3843Z'
+          fill='currentColor'
+        />
+        <path
+          d='M35.439 53.9525V8.47852H31.25V53.9525H35.439Z'
+          fill='currentColor'
+        />
+        <path
+          d='M96.8111 53.9525V8.47852H92.6221V53.9525H96.8111Z'
+          fill='currentColor'
+        />
+        <path
+          d='M29.8531 31.2155V8.47852H25.6641V31.2155H29.8531Z'
+          fill='currentColor'
+        />
+        <path
+          d='M102.238 31.2155V8.47852H98.0488V31.2155H102.238Z'
+          fill='currentColor'
+        />
+        <path
+          d='M124.555 3.42056V127.573H3.43902V3.42056H124.555ZM128 0H0V131H128V0Z'
+          fill='currentColor'
+        />
+      </g>
+      <defs>
+        <clipPath id='clip0_382_1865'>
+          <rect width='128' height='131' fill='white' />
+        </clipPath>
+      </defs>
     </svg>
-  );
+  )
 }

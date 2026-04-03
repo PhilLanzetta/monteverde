@@ -1,3 +1,10 @@
+import LandingOverlay from '@/components/layout/landingOverlay'
+
 export default function Home() {
-  return <main>{/* Page content goes here */}</main>
+  return (
+    <main>
+      <LandingOverlay />
+      {/* rest of page content */}
+    </main>
+  )
 }

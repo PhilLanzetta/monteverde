@@ -1,57 +1,14 @@
+/* ── Shared ── */
 .header {
-  display: flex;
-  align-items: stretch;
-  border: 1px solid #1a1a1a;
-  height: 48px;
-  overflow: hidden;
-  font-family: 'Oswald', sans-serif;
   width: 100%;
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+  border-top: 20px solid #1a1a1a;
+  position: fixed;
+  background: #fff;
+  z-index: 100;
 }
 
-/* ── Shared cell ── */
-.cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid #1a1a1a;
-  padding: 0 14px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.cell:last-child {
-  border-right: none;
-}
-
-/* ── Logo ── */
-.logo {
-  min-width: 140px;
-}
-.logo a {
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: inherit;
-  text-decoration: none;
-}
-
-/* ── Now playing ── */
-.nowPlaying {
-  font-family: 'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
-  font-size: 11px;
-  line-height: 1.4;
-  color: #555;
-  max-width: 180px;
-  padding: 4px 14px;
-  justify-content: flex-start;
-}
-.nowPlaying em {
-  font-style: italic;
-}
-
-/* ── Play button ── */
-.playCell {
-  min-width: 48px;
-}
 .playButton {
   background: none;
   border: none;
@@ -66,18 +23,12 @@
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 7px 0 7px 12px;
+  border-width: 8px 0 8px 14px;
   border-color: transparent transparent transparent #1a1a1a;
 }
-
-/* ── Volume ── */
-.volumeCell {
-  gap: 8px;
-  min-width: 120px;
-}
 .volIcon {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
   color: #1a1a1a;
 }
@@ -88,25 +39,14 @@
   position: relative;
 }
 .volumeThumb {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #1a1a1a;
   position: absolute;
-  right: 0;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
-}
-
-/* ── Waveform ── */
-.waveform {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 0 16px;
-  min-width: 180px;
 }
 .bar {
   display: block;
@@ -115,14 +55,188 @@
   border-radius: 1px;
   opacity: 0.65;
 }
+.waveform {
+  flex: 1 1 auto;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 16px;
+}
 
-/* ── Nav ── */
+/* ══ MOBILE ═══════════════════════════════════════════ */
+.mobile {
+  display: block;
+}
+
+/* Top bar */
+.mobileTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.mobileLogo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.logoSvg {
+  height: 20px;
+  width: auto;
+}
+
+/* Hamburger */
+.hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+  position: absolute;
+  right: 20px;
+}
+.hamburgerLine {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: #1a1a1a;
+}
+
+/* Expandable panel */
+.mobilePanel {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 99;
+}
+
+/* Player controls row */
+.mobilePlayerControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+/* Divider between play and volume */
+.mobileDivider {
+  width: 1px;
+  align-self: stretch;
+  background: #1a1a1a;
+  flex-shrink: 0;
+}
+
+/* Track info + waveform row */
+.mobilePlayerInfo {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #1a1a1a;
+  min-height: 80px;
+}
+.mobileTrackInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 20px;
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  min-width: 0;
+  flex: 0 0 45%;
+}
+.mobileTrackInfo em {
+  font-style: italic;
+}
+
+/* Nav links stacked */
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-size: 25px;
+  letter-spacing: 0.12em;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.mobileNavLink:hover {
+  background: #f5f5f5;
+}
+
+/* ══ DESKTOP ══════════════════════════════════════════ */
+.desktop {
+  display: none;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #1a1a1a;
+  padding: 0 14px;
+  white-space: nowrap;
+  min-width: 0;
+}
+.cell:last-child {
+  border-right: none;
+}
+.logo {
+  flex: 0 1 clamp(140px, 15vw, 220px);
+  padding: 0 16px;
+}
+.logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.nowPlaying {
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #555;
+  flex: 0 1 180px;
+  padding: 4px 14px;
+  justify-content: flex-start;
+  white-space: normal;
+}
+.nowPlaying em {
+  font-style: italic;
+}
+.playCell {
+  flex: 0 0 44px;
+}
+.volumeCell {
+  gap: 8px;
+  flex: 0 1 100px;
+}
 .navCell {
-  min-width: 100px;
+  flex: 1 1 calc(40% / 3);
+  min-width: 0;
+}
+.navCell:hover {
+  background: #f5f5f5;
 }
 .navLink {
-  font-size: 13px;
+  font-size: clamp(14px, 1.4vw, 30px);
   letter-spacing: 0.1em;
+  padding: 10px 12px;
   color: inherit;
   text-decoration: none;
   width: 100%;
@@ -131,6 +245,25 @@
   align-items: center;
   justify-content: center;
 }
-.navCell:hover {
-  background: #f5f5f5;
+
+@media (min-width: 768px) {
+  .desktop {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid #1a1a1a;
+    min-height: 64px;
+  }
+  .mobile {
+    display: none;
+  }
+  .logoSvg {
+    height: clamp(14px, 1.3vw, 20px);
+    width: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+  .waveform {
+    display: none;
+  }
 }

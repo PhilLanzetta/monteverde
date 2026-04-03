@@ -1,0 +1,61 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.blocker {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #000;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.blockerFaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bgImage {
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.logoWrap {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 40px;
+  pointer-events: none;
+}
+
+.logoSvg {
+  width: 100%;
+  height: auto;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 1.5s ease 0.4s;
+}
+
+.logoVisible {
+  opacity: 1;
+}
