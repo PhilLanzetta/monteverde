@@ -2,14 +2,21 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import styles from './landingOverlay.module.css'
-
 import dynamic from 'next/dynamic'
+import styles from './landingOverlay.module.css'
 
 const Player = dynamic(
   () => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player),
   { ssr: false },
 )
+
+function removeBlocker() {
+  const blocker = document.getElementById('initial-blocker')
+  if (!blocker) return
+  blocker.style.transition = 'opacity 0.4s ease'
+  blocker.style.opacity = '0'
+  setTimeout(() => blocker.remove(), 400)
+}
 
 function lockScroll() {
   const scrollbarWidth =
@@ -24,7 +31,7 @@ function unlockScroll() {
 }
 
 export default function LandingOverlay() {
-  const [show, setShow] = useState(() => {
+  const [show] = useState(() => {
     if (typeof window === 'undefined') return false
     return localStorage.getItem('overlayShown') !== 'true'
   })
@@ -34,13 +41,7 @@ export default function LandingOverlay() {
 
   useEffect(() => {
     if (!show) return
-    document.documentElement.style.visibility = 'hidden'
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        document.documentElement.style.visibility = ''
-        lockScroll()
-      })
-    })
+    lockScroll()
   }, [])
 
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function LandingOverlay() {
         fill
         priority
         className={styles.bgImage}
+        onLoad={removeBlocker}
       />
 
       <div className={styles.logoWrap}>

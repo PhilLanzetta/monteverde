@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import './globals.css'
@@ -16,6 +17,22 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
+        <Script
+          id='blocker-init'
+          strategy='beforeInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `if(localStorage.getItem('overlayShown')){document.getElementById('initial-blocker').style.display='none';}`,
+          }}
+        />
+        <div
+          id='initial-blocker'
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            background: '#000',
+          }}
+        />
         <Header />
         <main>{children}</main>
         <Footer />
