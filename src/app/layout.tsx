@@ -3,6 +3,23 @@ import Script from 'next/script'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import './globals.css'
+import localFont from 'next/font/local'
+
+const bodoni = localFont({
+  src: [
+    {
+      path: '../../public/fonts/bodoni-regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/bodoni-italic.woff2',
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-bodoni',
+})
 
 export const metadata: Metadata = {
   title: 'Monteverde',
@@ -15,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='en' className={bodoni.variable} suppressHydrationWarning>
       <head>
         <link
           rel='preload'

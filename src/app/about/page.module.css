@@ -1,5 +1,6 @@
 .page {
-  font-family: 'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
 }
 
 .label {
@@ -20,6 +21,7 @@
 }
 
 .standaloneHeading {
+  font-family: var(--font-bodoni), Georgia, serif;
   font-size: clamp(28px, 4vw, 56px);
   font-weight: 400;
   line-height: 1.1;
