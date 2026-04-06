@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import styles from './header.module.css'
+import { usePathname } from 'next/navigation'
 
 function LogoSvg({ className }: { className?: string }) {
   return (
@@ -67,6 +68,84 @@ function LogoSvg({ className }: { className?: string }) {
   )
 }
 
+// Base waveform shape — heights as fractions of max (0–1)
+const BASE_HEIGHTS = [
+  0.13, 0.22, 0.40, 0.62, 0.48, 0.30, 0.70, 0.88, 0.78, 0.52,
+  0.35, 0.82, 0.96, 0.65, 0.44, 0.26, 0.57, 0.92, 0.74, 0.48,
+  0.35, 0.78, 0.61, 0.39, 0.22, 0.17, 0.30, 0.52, 0.83, 1.00,
+  0.87, 0.61, 0.39, 0.26, 0.43, 0.74, 0.91, 0.78, 0.52, 0.35,
+  0.22, 0.48, 0.66, 0.84, 0.72, 0.44, 0.28, 0.60, 0.88, 0.76,
+  0.54, 0.36, 0.24, 0.46, 0.68, 0.90, 0.80, 0.58, 0.40, 0.20,
+];
+
+function AnimatedWaveform() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animRef = useRef<number>(0)
+  const offsetRef = useRef(0)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const dpr = window.devicePixelRatio || 1
+
+    function resize() {
+      if (!canvas || !ctx) return
+      canvas.width = canvas.offsetWidth * dpr
+      canvas.height = canvas.offsetHeight * dpr
+      ctx.scale(dpr, dpr)
+    }
+
+    resize()
+    const ro = new ResizeObserver(resize)
+    ro.observe(canvas)
+
+    function draw() {
+      if (!canvas || !ctx) return
+      const w = canvas.offsetWidth
+      const h = canvas.offsetHeight
+      ctx.clearRect(0, 0, w, h)
+
+      const barCount = BASE_HEIGHTS.length
+      const barWidth = 2
+      const gap = (w - barCount * barWidth) / (barCount - 1)
+      const maxBarH = h * 0.85
+      const t = offsetRef.current
+
+      for (let i = 0; i < barCount; i++) {
+        // Animate each bar with a sine wave offset per bar
+        const wave = Math.sin(t * 0.04 + i * 0.4) * 0.25
+        const barH = Math.max(2, (BASE_HEIGHTS[i] + wave) * maxBarH)
+        const x = i * (barWidth + gap)
+        const y = (h - barH) / 2
+        ctx.fillStyle = 'rgba(26, 26, 26, 0.75)'
+        ctx.fillRect(x, y, barWidth, barH)
+      }
+
+      offsetRef.current += 1
+      animRef.current = requestAnimationFrame(draw)
+    }
+
+    animRef.current = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(animRef.current)
+      ro.disconnect()
+    }
+  }, [])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={styles.waveformCanvas}
+      aria-hidden='true'
+    />
+  )
+}
+
 const NAV_LINKS = [
   { label: 'EVENTS', href: '/events' },
   { label: 'PUBLISHING', href: '/publishing' },
@@ -85,6 +164,8 @@ const WAVEFORM_HEIGHTS = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const pathname = usePathname()
 
   return (
     <header className={`${styles.header} ${menuOpen ? styles.menuOpen : ''}`}>
@@ -111,14 +192,15 @@ export default function Header() {
             <div className={styles.volumeThumb} />
           </div>
         </div>
-        <div className={`${styles.cell} ${styles.waveform}`} aria-hidden='true'>
-          {WAVEFORM_HEIGHTS.map((h, i) => (
-            <span key={i} className={styles.bar} style={{ height: h }} />
-          ))}
+        <div className={styles.waveformCell} aria-hidden='true'>
+          <AnimatedWaveform />
         </div>
         {NAV_LINKS.map(({ label, href }) => (
           <div key={label} className={`${styles.cell} ${styles.navCell}`}>
-            <Link href={href} className={styles.navLink}>
+            <Link
+              href={href}
+              className={`${styles.navLink} ${pathname.startsWith(href) ? styles.activeLink : ''}`}
+            >
               {label}
             </Link>
           </div>
@@ -170,18 +252,14 @@ export default function Header() {
               {/* Track info + waveform row */}
               <div className={styles.mobilePlayerInfo}>
                 <div className={styles.mobileTrackInfo}>
-                  <span>{NOW_PLAYING.artists} –</span>
-                  <em>{NOW_PLAYING.title}</em>
+                  <div>
+                    <span>{NOW_PLAYING.artists} – </span>
+                    <em>{NOW_PLAYING.title}</em>
+                  </div>
                 </div>
                 <div className={styles.mobileDivider} />
-                <div className={styles.waveform} aria-hidden='true'>
-                  {WAVEFORM_HEIGHTS.map((h, i) => (
-                    <span
-                      key={i}
-                      className={styles.bar}
-                      style={{ height: h }}
-                    />
-                  ))}
+                <div className={styles.mobileWaveformCell} aria-hidden='true'>
+                  <AnimatedWaveform />
                 </div>
               </div>
 

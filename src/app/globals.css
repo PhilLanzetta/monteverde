@@ -10,11 +10,11 @@ html {
 }
 
 main {
-  padding-top: 84px;
+  padding-top: 77px;
 }
 
 @media (max-width: 767px) {
   main {
-    padding-top: 81px;
+    padding-top: 47px;
   }
 }

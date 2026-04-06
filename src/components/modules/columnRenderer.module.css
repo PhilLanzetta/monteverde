@@ -14,7 +14,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 20px;
-  border-right: 1px solid #1a1a1a;
+  border-right: 1px solid #000000;
 }
 
 .columnHeading {
@@ -24,7 +24,7 @@
   line-height: 1.1;
   letter-spacing: -0.01em;
   margin: 0;
-  color: #1a1a1a;
+  color: #000000;
 }
 
 .columnBody {
@@ -65,7 +65,7 @@
   .columnText {
     padding: 48px 24px;
     border-right: none;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid #000000;
   }
 
   .columnImageInner {

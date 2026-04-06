@@ -1,44 +1,29 @@
+import { notFound } from 'next/navigation'
 import type { Asset } from 'contentful'
-import { getAllEvents } from '@/lib/events'
-import { getAllPublications } from '@/lib/publications'
+import { getHomePage } from '@/lib/home'
 import type { EventEntry } from '@/types/event'
 import type { PublicationEntry } from '@/types/publication'
 import Tile from '@/components/ui/tile'
 import LandingOverlay from '@/components/layout/landingOverlay'
 
-type TileItem =
-  | { type: 'event'; entry: EventEntry }
-  | { type: 'publication'; entry: PublicationEntry }
-
-function interleave(
-  events: EventEntry[],
-  publications: PublicationEntry[],
-): TileItem[] {
-  const result: TileItem[] = []
-  const maxLen = Math.max(events.length, publications.length)
-  for (let i = 0; i < maxLen; i++) {
-    if (i < events.length) result.push({ type: 'event', entry: events[i] })
-    if (i < publications.length)
-      result.push({ type: 'publication', entry: publications[i] })
-  }
-  return result
-}
+export const revalidate = 3600
 
 export default async function HomePage() {
-  const [events, publications] = await Promise.all([
-    getAllEvents(),
-    getAllPublications(),
-  ])
+  const page = await getHomePage()
+  if (!page) notFound()
 
-  const tiles = interleave(events, publications)
+  const tiles =
+    (page.fields.tiles as unknown as (EventEntry | PublicationEntry)[]) ?? []
 
   return (
     <>
       <LandingOverlay />
       <div>
-        {tiles.map((item) => {
-          if (item.type === 'event') {
-            const event = item.entry
+        {tiles.map((entry) => {
+          const type = entry.sys.contentType.sys.id
+
+          if (type === 'event') {
+            const event = entry as EventEntry
             const asset = event.fields.tileImage as unknown as Asset
             const imageUrl = asset?.fields?.file?.url
               ? `https:${asset.fields.file.url}`
@@ -57,8 +42,8 @@ export default async function HomePage() {
             )
           }
 
-          if (item.type === 'publication') {
-            const pub = item.entry
+          if (type === 'publication') {
+            const pub = entry as PublicationEntry
             const asset = pub.fields.tileImage as unknown as Asset
             const imageUrl = asset?.fields?.file?.url
               ? `https:${asset.fields.file.url}`

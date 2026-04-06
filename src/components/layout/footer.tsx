@@ -1,7 +1,7 @@
 import styles from './footer.module.css'
 
 const CONTACT = {
-  instagram: '@monteverde',
+  instagram: '@monteverde_productions',
   email: 'info@monteverde-productions.com',
   pressEmail: 'press@monteverde-productions.com',
 }
@@ -20,7 +20,7 @@ export default function Footer() {
         <p>
           <em>Instagram:</em>{' '}
           <a
-            href={`https://instagram.com/${CONTACT.instagram.replace('@', '')}`}
+            href='https://www.instagram.com/monteverde_productions/'
             target='_blank'
             rel='noreferrer'
           >

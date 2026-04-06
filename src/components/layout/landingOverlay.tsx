@@ -64,7 +64,7 @@ export default function LandingOverlay() {
     sessionStorage.setItem('overlayShown', 'true')
     setTimeout(() => {
       setGone(true)
-    }, 1000)
+    }, 300)
   }
 
   if (!show || gone) return null

@@ -1,11 +1,12 @@
 .page {
-  font-family: 'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
 }
 
 .hero {
   position: relative;
   width: 100vw;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 75px);
 }
 
 .heroImg {
@@ -14,7 +15,7 @@
 
 .titleBlock {
   width: 100%;
-  padding: 60px 24px 60px;
+  padding: 60px 24px 0px 24px;
   position: absolute;
   bottom: 0;
   z-index: 5;
@@ -27,16 +28,27 @@
   letter-spacing: 0.15em;
   color: #fff;
   font-family: var(--font-courier-prime), 'Courier New', monospace;
-  padding-bottom: 40px;
 }
 
 .title {
   font-family: var(--font-bodoni), Georgia, serif;
   font-size: clamp(55px, 12vw, 200px);
   font-weight: 400;
-  line-height: 1;
+  line-height: 0.8;
+  padding-top: 0.2em;
   letter-spacing: 0.07em;
   margin: 0;
   color: #fff;
   text-transform: uppercase;
+}
+
+@media screen and (max-width: 767px) {
+  .hero {
+  height: calc(100vh - 47px);
+}
+
+.titleBlock {
+  padding: 60px 12px 0px 12px;
+}
+
 }

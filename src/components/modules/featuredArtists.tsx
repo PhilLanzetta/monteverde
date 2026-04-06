@@ -7,7 +7,6 @@ export default function FeaturedArtists({
   entry: FeaturedArtistsEntry
 }) {
   const { artists } = entry.fields
-  console.log(entry.fields)
   const rawArtists = entry.fields.artists
   const artistList = Array.isArray(rawArtists)
     ? (rawArtists as string[]).map((a) => a.trim()).filter(Boolean)
@@ -21,8 +20,7 @@ export default function FeaturedArtists({
   return (
     <section className={styles.featuredArtists}>
       <span className={styles.heading}>
-        Featured<br />
-        Artists
+        Featured Artists
       </span>
       <ul className={styles.artistList}>
         {artistList.map((artist, i) => (

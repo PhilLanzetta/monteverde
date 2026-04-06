@@ -8,7 +8,8 @@ import type {
 // ── Heading and Text ──────────────────────────────────
 export type HeadingAndTextSkeleton = EntrySkeletonType<
   {
-    heading: EntryFieldTypes.Text
+    preHeadingText: EntryFieldTypes.Text
+    headingText: EntryFieldTypes.Text
     bodyText: EntryFieldTypes.Text
   },
   'headingAndText'
@@ -22,11 +23,11 @@ export type HeadingAndTextEntry = Entry<
 // ── Event Details ─────────────────────────────────────
 export type EventDetailsSkeleton = EntrySkeletonType<
   {
-    date: EntryFieldTypes.Date
-    time: EntryFieldTypes.Text
-    location: EntryFieldTypes.Text
-    ticketLink: EntryFieldTypes.Text
     image: EntryFieldTypes.AssetLink
+    address: EntryFieldTypes.Text
+    datetime: EntryFieldTypes.Text
+    ticketPrice: EntryFieldTypes.Text
+    ticketUrl: EntryFieldTypes.Text
   },
   'eventDetails'
 >

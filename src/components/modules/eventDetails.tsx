@@ -4,61 +4,44 @@ import type { Asset } from 'contentful'
 import styles from './modules.module.css'
 
 export default function EventDetails({ entry }: { entry: EventDetailsEntry }) {
-  const { date, time, location, ticketLink, image } = entry.fields
+  const { image, address, datetime, ticketPrice, ticketUrl } = entry.fields
+
   const asset = image as unknown as Asset
   const imageUrl = asset?.fields?.file?.url
     ? `https:${asset.fields.file.url}`
     : null
 
-  const formattedDate = date
-    ? new Date(date as string).toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : null
-
   return (
     <section className={styles.eventDetails}>
-      <span className={styles.heading}>Event<br /> Details</span>
+      <h2 className={styles.heading}>
+        Event Details
+      </h2>
       {imageUrl && (
         <div className={styles.eventImage}>
           <Image
             src={imageUrl}
-            alt={(location as string) ?? 'Event'}
+            alt={(address as string) ?? 'Event'}
             fill
             className={styles.img}
           />
         </div>
       )}
       <div className={styles.eventInfo}>
-        {formattedDate && (
-          <p className={styles.detailRow}>
-            <span className={styles.detailLabel}>Date</span>
-            {formattedDate}
-          </p>
-        )}
-        {time && (
-          <p className={styles.detailRow}>
-            <span className={styles.detailLabel}>Time</span>
-            {time as string}
-          </p>
-        )}
-        {location && (
-          <p className={styles.detailRow}>
-            <span className={styles.detailLabel}>Location</span>
-            {location as string}
-          </p>
-        )}
-        {ticketLink && (
+        <div className={styles.eventInfoText}>
+          {address && <p className={styles.detailRow}>{address as string}</p>}
+          {datetime && <p className={styles.detailRow}>{datetime as string}</p>}
+          {ticketPrice && (
+            <p className={styles.detailRow}>Tickets: {ticketPrice as string}</p>
+          )}
+        </div>
+        {ticketUrl && (
           <a
-            href={ticketLink as string}
+            href={ticketUrl as string}
             className={styles.ticketLink}
             target='_blank'
             rel='noreferrer'
           >
-            Get Tickets
+            Purchase Tickets
           </a>
         )}
       </div>
