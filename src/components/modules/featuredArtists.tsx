@@ -20,7 +20,10 @@ export default function FeaturedArtists({
 
   return (
     <section className={styles.featuredArtists}>
-      <span className={styles.label}>Featured Artists</span>
+      <span className={styles.heading}>
+        Featured<br />
+        Artists
+      </span>
       <ul className={styles.artistList}>
         {artistList.map((artist, i) => (
           <li key={i} className={styles.artistItem}>

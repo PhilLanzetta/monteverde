@@ -21,6 +21,7 @@ export default function EventDetails({ entry }: { entry: EventDetailsEntry }) {
 
   return (
     <section className={styles.eventDetails}>
+      <span className={styles.heading}>Event<br /> Details</span>
       {imageUrl && (
         <div className={styles.eventImage}>
           <Image

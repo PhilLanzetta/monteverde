@@ -51,13 +51,12 @@ export default async function EventPage({
             priority
             className={styles.heroImg}
           />
+          <div className={styles.titleBlock}>
+            <span className={styles.label}>EVENTS</span>
+            <h1 className={styles.title}>{event.fields.title as string}</h1>
+          </div>
         </div>
       )}
-
-      <div className={styles.titleBlock}>
-        <span className={styles.label}>EVENT</span>
-        <h1 className={styles.title}>{event.fields.title as string}</h1>
-      </div>
 
       <ContentModuleRenderer modules={modules} />
     </article>
