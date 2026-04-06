@@ -57,7 +57,7 @@ export default function RootLayout({
           id='blocker-init'
           strategy='beforeInteractive'
           dangerouslySetInnerHTML={{
-            __html: `if(localStorage.getItem('overlayShown')){document.getElementById('initial-blocker').style.display='none';}`,
+            __html: `if(sessionStorage.getItem('overlayShown')){document.getElementById('initial-blocker').style.display='none';}`,
           }}
         />
         <div

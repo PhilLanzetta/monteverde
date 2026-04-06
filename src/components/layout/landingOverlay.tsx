@@ -33,7 +33,7 @@ function unlockScroll() {
 export default function LandingOverlay() {
   const [show] = useState(() => {
     if (typeof window === 'undefined') return false
-    return localStorage.getItem('overlayShown') !== 'true'
+    return sessionStorage.getItem('overlayShown') !== 'true'
   })
   const [imageLoaded, setImageLoaded] = useState(false)
   const [gone, setGone] = useState(false)
@@ -61,7 +61,7 @@ export default function LandingOverlay() {
       overlayRef.current.style.opacity = '0'
       overlayRef.current.style.transition = 'opacity 1s ease'
     }
-    localStorage.setItem('overlayShown', 'true')
+    sessionStorage.setItem('overlayShown', 'true')
     setTimeout(() => {
       setGone(true)
     }, 1000)
