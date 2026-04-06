@@ -4,6 +4,14 @@ import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
 import './globals.css'
 import localFont from 'next/font/local'
+import { Courier_Prime } from 'next/font/google'
+
+const courierPrime = Courier_Prime({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-courier-prime',
+})
 
 const bodoni = localFont({
   src: [
@@ -32,7 +40,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en' className={bodoni.variable} suppressHydrationWarning>
+    <html
+      lang='en'
+      className={`${bodoni.variable} ${courierPrime.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <link
           rel='preload'
