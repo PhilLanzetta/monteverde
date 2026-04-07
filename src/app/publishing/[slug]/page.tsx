@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
 import type { Asset } from 'contentful'
 import { getAllPublications, getPublicationBySlug } from '@/lib/publications'
 import type {
@@ -12,7 +13,11 @@ import styles from './page.module.css'
 
 export async function generateStaticParams() {
   const publications = await getAllPublications()
-  return publications.map((p) => ({ slug: p.fields.slug as string }))
+  return publications
+    .filter(
+      (p) => typeof p.fields.slug === 'string' && p.fields.slug.trim() !== '',
+    )
+    .map((p) => ({ slug: p.fields.slug as string }))
 }
 
 export async function generateMetadata({
@@ -24,6 +29,28 @@ export async function generateMetadata({
   const publication = await getPublicationBySlug(slug)
   if (!publication) return {}
   return { title: `${publication.fields.title} — Monteverde` }
+}
+
+function GalleryImage({ wrapper }: { wrapper: ImageWrapperEntry }) {
+  const asset = wrapper.fields.image as unknown as Asset
+  const imageUrl = asset?.fields?.file?.url
+    ? `https:${asset.fields.file.url}`
+    : null
+  const caption = wrapper.fields.caption as string | undefined
+  if (!imageUrl) return null
+  return (
+    <div className={styles.galleryItem}>
+      <Image
+        src={imageUrl}
+        alt={caption ?? ''}
+        width={0}
+        height={0}
+        sizes='50vw'
+        className={styles.galleryImage}
+      />
+      {caption && <p className={styles.caption}>{caption}</p>}
+    </div>
+  )
 }
 
 export default async function PublicationPage({
@@ -49,11 +76,18 @@ export default async function PublicationPage({
       <section className={styles.hero}>
         <div className={styles.heroLeft}>
           <span className={styles.label}>PUBLISHING</span>
-          <h1 className={styles.title}>{publication.fields.title as string}</h1>
+          <h1
+            className={styles.title}
+            dangerouslySetInnerHTML={{
+              __html: publication.fields.title as string,
+            }}
+          />
           {publication.fields.heroDescription && (
-            <p className={styles.heroDescription}>
-              {publication.fields.heroDescription as string}
-            </p>
+            <div className={styles.heroDescription}>
+              <ReactMarkdown>
+                {publication.fields.heroDescription as string}
+              </ReactMarkdown>
+            </div>
           )}
           {publication.fields.purchaseLink && (
             <a
@@ -81,6 +115,14 @@ export default async function PublicationPage({
               : null
             return (
               <div key={author.sys.id} className={styles.author}>
+                <h2 className={styles.authorName}>
+                  {author.fields.name as string}
+                </h2>
+                {author.fields.bio && (
+                  <div className={styles.authorBio}>
+                    <ReactMarkdown>{author.fields.bio as string}</ReactMarkdown>
+                  </div>
+                )}
                 {authorImageUrl && (
                   <div className={styles.authorImage}>
                     <Image
@@ -91,17 +133,6 @@ export default async function PublicationPage({
                     />
                   </div>
                 )}
-                <div className={styles.authorInfo}>
-                  <span className={styles.label}>AUTHOR</span>
-                  <h2 className={styles.authorName}>
-                    {author.fields.name as string}
-                  </h2>
-                  {author.fields.bio && (
-                    <p className={styles.authorBio}>
-                      {author.fields.bio as string}
-                    </p>
-                  )}
-                </div>
               </div>
             )
           })}
@@ -112,31 +143,37 @@ export default async function PublicationPage({
       {gallery && galleryImages.length > 0 && (
         <section className={styles.gallery}>
           {gallery.fields.heading && (
-            <h2 className={styles.galleryHeading}>
-              {gallery.fields.heading as string}
-            </h2>
+            <h2
+              className={styles.galleryHeading}
+              dangerouslySetInnerHTML={{
+                __html: gallery.fields.heading as string,
+              }}
+            />
           )}
+
+          {/* Desktop: two-column masonry */}
           <div className={styles.galleryGrid}>
-            {galleryImages.map((wrapper) => {
-              const asset = wrapper.fields.image as unknown as Asset
-              const imageUrl = asset?.fields?.file?.url
-                ? `https:${asset.fields.file.url}`
-                : null
-              const caption = wrapper.fields.caption as string | undefined
-              return imageUrl ? (
-                <div key={wrapper.sys.id} className={styles.galleryItem}>
-                  <div className={styles.galleryImage}>
-                    <Image
-                      src={imageUrl}
-                      alt={caption ?? ''}
-                      fill
-                      className={styles.img}
-                    />
-                  </div>
-                  {caption && <p className={styles.caption}>{caption}</p>}
-                </div>
-              ) : null
-            })}
+            <div className={styles.galleryCol}>
+              {galleryImages
+                .filter((_, i) => i % 2 === 0)
+                .map((wrapper) => (
+                  <GalleryImage key={wrapper.sys.id} wrapper={wrapper} />
+                ))}
+            </div>
+            <div className={styles.galleryCol}>
+              {galleryImages
+                .filter((_, i) => i % 2 !== 0)
+                .map((wrapper) => (
+                  <GalleryImage key={wrapper.sys.id} wrapper={wrapper} />
+                ))}
+            </div>
+          </div>
+
+          {/* Mobile: single column, original order */}
+          <div className={styles.galleryMobile}>
+            {galleryImages.map((wrapper) => (
+              <GalleryImage key={wrapper.sys.id} wrapper={wrapper} />
+            ))}
           </div>
         </section>
       )}

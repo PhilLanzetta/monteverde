@@ -5,60 +5,71 @@
 
 .label {
   display: block;
-  font-size: 11px;
+  font-size: 20px;
   letter-spacing: 0.15em;
-  color: #888;
-  margin-bottom: 12px;
-  font-family: 'Oswald', sans-serif;
+  color: #000;
+  font-family: var(--font-courier-prime), 'Courier New', monospace;
 }
 
 /* ── Standalone headingAndText ── */
 .standaloneText {
-  max-width: 720px;
+  max-width: 560px;
   margin: 0 auto;
   padding: 80px 24px;
-  border-bottom: 1px solid #eee;
+  text-align: center;
 }
 
 .standaloneHeading {
   font-family: var(--font-bodoni), Georgia, serif;
-  font-size: clamp(28px, 4vw, 56px);
+  text-align: center;
+  font-size: clamp(30px, 5vw, 100px);
   font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin: 0 0 24px;
+  line-height: 0.8;
+  padding-top: 0.2em;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   color: #000000;
+  margin: 24px 0;
 }
 
 .standaloneBody {
-  font-size: clamp(14px, 1.1vw, 17px);
+  font-size: clamp(15px, 2vw, 22px);
+  letter-spacing: 0.07em;
   line-height: 1.8;
-  color: #444;
-  margin: 0;
+  color: #000000;
   white-space: pre-wrap;
 }
 
 /* ── Two column ── */
 .twoColumn {
   display: grid;
+  padding: 24px;
   grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid #000000;
+  gap: 24px;
   min-height: 60vh;
-}
-
-/* ── Remove border-right from last column ── */
-.twoColumn > *:last-child {
-  border-right: none;
 }
 
 /* ══ MOBILE ═══════════════════════════════════════════ */
 @media (max-width: 767px) {
   .standaloneText {
-    padding: 48px 24px;
+    padding: 48px 12px;
+  }
+
+  .standaloneBody {
+    line-height: 1.2;
+  }
+
+  .standaloneHeading {
+    margin: 16px 0;
   }
 
   .twoColumn {
     grid-template-columns: 1fr;
     min-height: auto;
+    padding: 12px;
+  }
+
+  .label {
+    font-size: 15px;
   }
 }

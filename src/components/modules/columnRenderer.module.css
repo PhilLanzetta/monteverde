@@ -1,74 +1,82 @@
 .label {
   display: block;
-  font-size: 11px;
+  font-size: 20px;
   letter-spacing: 0.15em;
-  color: #888;
-  margin-bottom: 12px;
-  font-family: 'Oswald', sans-serif;
+  color: #000;
+  font-family: var(--font-courier-prime), 'Courier New', monospace;
 }
 
 /* ── Text column ── */
 .columnText {
-  padding: 80px 60px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 20px;
-  border-right: 1px solid #000000;
+  text-align: center;
 }
 
 .columnHeading {
   font-family: var(--font-bodoni), Georgia, serif;
-  font-size: clamp(24px, 3vw, 48px);
+  text-align: center;
+  font-size: clamp(30px, 5vw, 100px);
   font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  margin: 0;
+  line-height: 0.8;
+  padding-top: 0.2em;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   color: #000000;
+  margin: 24px 0;
 }
 
 .columnBody {
-  font-size: clamp(14px, 1.1vw, 17px);
+  font-size: clamp(15px, 2vw, 22px);
+  letter-spacing: 0.07em;
   line-height: 1.8;
-  color: #444;
-  margin: 0;
+  color: #000000;
   white-space: pre-wrap;
 }
+
 
 /* ── Image column ── */
 .columnImage {
   display: flex;
   flex-direction: column;
-}
-
-.columnImageInner {
   position: relative;
-  flex: 1;
-  min-height: 400px;
 }
 
-.img {
-  object-fit: cover;
+.imageEl {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .imageCaption {
-  font-size: 12px;
+  font-size: 11px;
   color: #888;
   font-style: italic;
-  padding: 12px 20px;
+  padding: 8px 16px;
   margin: 0;
-  border-top: 0.5px solid #ddd;
 }
 
 /* ══ MOBILE ═══════════════════════════════════════════ */
 @media (max-width: 767px) {
   .columnText {
-    padding: 48px 24px;
-    border-right: none;
-    border-bottom: 1px solid #000000;
+    padding: 48px 0px;
+  }
+
+  .columnHeading {
+    margin: 16px 0;
   }
 
   .columnImageInner {
     min-height: 300px;
+  }
+
+  .columnBody {
+    line-height: 1.2;
+  }
+
+  .label {
+    font-size: 15px;
   }
 }

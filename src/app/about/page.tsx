@@ -22,7 +22,6 @@ export default async function AboutPage() {
         const type = module.sys.contentType.sys.id
         const key = module.sys.id
 
-        // ── Standalone headingAndText ──
         if (type === 'headingAndText') {
           const entry = module as AboutHeadingAndTextEntry
           const { preHeadingText, headingText, bodyText } = entry.fields
@@ -32,9 +31,10 @@ export default async function AboutPage() {
                 <span className={styles.label}>{preHeadingText as string}</span>
               )}
               {headingText && (
-                <h2 className={styles.standaloneHeading}>
-                  {headingText as string}
-                </h2>
+                <h2
+                  className={styles.standaloneHeading}
+                  dangerouslySetInnerHTML={{ __html: headingText as string }}
+                />
               )}
               {bodyText && (
                 <p className={styles.standaloneBody}>{bodyText as string}</p>
@@ -43,7 +43,6 @@ export default async function AboutPage() {
           )
         }
 
-        // ── Two column content ──
         if (type === 'twoColumnContent') {
           const entry = module as TwoColumnContentEntry
           const columns = (entry.fields.columnContent as any[]) ?? []

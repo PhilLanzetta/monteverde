@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import type { Asset } from 'contentful'
 import type { ImageWrapperEntry } from '@/types/publication'
@@ -22,10 +22,30 @@ export default function HeroSlideshow({
     : null
   const caption = item.fields.caption as string | undefined
 
+  const touchStartX = useRef(0)
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    const diff = touchStartX.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) < 50) return // ignore small movements
+    if (diff > 0) {
+      setCurrent((c) => (c + 1) % images.length)
+    } else {
+      setCurrent((c) => (c - 1 + images.length) % images.length)
+    }
+  }
+
   return (
-    <div className={styles.slideshow}>
+    <div
+      className={styles.slideshow}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {imageUrl && (
-        <div className={styles.slideshowImage}>
+        <div className={styles.imageWrap}>
           <Image
             src={imageUrl}
             alt={caption ?? ''}
@@ -35,30 +55,41 @@ export default function HeroSlideshow({
           />
         </div>
       )}
-      {caption && <p className={styles.caption}>{caption}</p>}
+
       {images.length > 1 && (
-        <div className={styles.slideshowControls}>
+        <div className={styles.controls}>
           <button
-            className={styles.slideshowBtn}
+            className={styles.caret}
             onClick={() =>
               setCurrent((c) => (c - 1 + images.length) % images.length)
             }
             aria-label='Previous image'
           >
-            ←
+            &#8249;
           </button>
-          <span className={styles.slideshowCount}>
-            {current + 1} / {images.length}
-          </span>
+
+          <div className={styles.dots}>
+            {images.map((_, i) => (
+              <button
+                key={i}
+                className={`${styles.dot} ${i === current ? styles.dotActive : ''}`}
+                onClick={() => setCurrent(i)}
+                aria-label={`Go to image ${i + 1}`}
+              />
+            ))}
+          </div>
+
           <button
-            className={styles.slideshowBtn}
+            className={styles.caret}
             onClick={() => setCurrent((c) => (c + 1) % images.length)}
             aria-label='Next image'
           >
-            →
+            &#8250;
           </button>
         </div>
       )}
+
+      {caption && <p className={styles.caption}>{caption}</p>}
     </div>
   )
 }

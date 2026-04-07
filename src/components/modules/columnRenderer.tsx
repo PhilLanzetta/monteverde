@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
 import type { Asset } from 'contentful'
 import type { AboutHeadingAndTextEntry } from '@/types/about'
 import type { ImageWrapperEntry } from '@/types/publication'
@@ -19,9 +20,16 @@ export default function ColumnRenderer({ entry }: { entry: ColumnEntry }) {
           <span className={styles.label}>{preHeadingText as string}</span>
         )}
         {headingText && (
-          <h2 className={styles.columnHeading}>{headingText as string}</h2>
+          <h2
+            className={styles.columnHeading}
+            dangerouslySetInnerHTML={{ __html: headingText as string }}
+          />
         )}
-        {bodyText && <p className={styles.columnBody}>{bodyText as string}</p>}
+        {bodyText && (
+          <div className={styles.columnBody}>
+            <ReactMarkdown>{bodyText as string}</ReactMarkdown>
+          </div>
+        )}
       </div>
     )
   }
@@ -37,14 +45,14 @@ export default function ColumnRenderer({ entry }: { entry: ColumnEntry }) {
     return (
       <div className={styles.columnImage}>
         {imageUrl && (
-          <div className={styles.columnImageInner}>
-            <Image
-              src={imageUrl}
-              alt={caption ?? ''}
-              fill
-              className={styles.img}
-            />
-          </div>
+          <Image
+            src={imageUrl}
+            alt={caption ?? ''}
+            width={0}
+            height={0}
+            sizes='50vw'
+            className={styles.imageEl}
+          />
         )}
         {caption && <p className={styles.imageCaption}>{caption}</p>}
       </div>
