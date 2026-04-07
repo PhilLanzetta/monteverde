@@ -81,6 +81,26 @@ function AnimatedWaveform({ isPlaying }: { isPlaying: boolean }) {
   const animRef = useRef<number>(0)
   const offsetRef = useRef(0)
 
+  function drawStatic(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D,
+  ) {
+    const w = canvas.offsetWidth
+    const h = canvas.offsetHeight
+    ctx.clearRect(0, 0, w, h)
+    const barCount = BASE_HEIGHTS.length
+    const barWidth = 2
+    const gap = (w - barCount * barWidth) / (barCount - 1)
+    const maxBarH = h * 0.85
+    for (let i = 0; i < barCount; i++) {
+      const barH = Math.max(2, BASE_HEIGHTS[i] * maxBarH)
+      const x = i * (barWidth + gap)
+      const y = (h - barH) / 2
+      ctx.fillStyle = 'rgba(26, 26, 26, 0.75)'
+      ctx.fillRect(x, y, barWidth, barH)
+    }
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -96,7 +116,12 @@ function AnimatedWaveform({ isPlaying }: { isPlaying: boolean }) {
     }
 
     resize()
-    const ro = new ResizeObserver(resize)
+    drawStatic(canvas, ctx)
+
+    const ro = new ResizeObserver(() => {
+      resize()
+      if (!isPlaying) drawStatic(canvas, ctx)
+    })
     ro.observe(canvas)
 
     return () => {
@@ -112,6 +137,7 @@ function AnimatedWaveform({ isPlaying }: { isPlaying: boolean }) {
 
     if (!isPlaying) {
       cancelAnimationFrame(animRef.current)
+      drawStatic(canvas, ctx)
       return
     }
 
@@ -316,7 +342,7 @@ export default function Header({ audioUrl, audioCaption }: HeaderProps) {
                 </div>
                 <div className={styles.mobileDivider} />
                 <div className={styles.mobileWaveformCell} aria-hidden='true'>
-                  <AnimatedWaveform />
+                  <AnimatedWaveform isPlaying={isPlaying} />
                 </div>
               </div>
 

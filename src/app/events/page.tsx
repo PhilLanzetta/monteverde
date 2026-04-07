@@ -1,5 +1,5 @@
 import type { Asset } from 'contentful'
-import { getAllEvents } from '@/lib/events'
+import { getHomePage } from '@/lib/home'
 import type { EventEntry } from '@/types/event'
 import Tile from '@/components/ui/tile'
 import styles from './page.module.css'
@@ -7,7 +7,11 @@ import styles from './page.module.css'
 export const revalidate = 3600
 
 export default async function EventsPage() {
-  const events = await getAllEvents()
+  const homePage = await getHomePage()
+  const tiles = (homePage?.fields.tiles as unknown as any[]) ?? []
+  const events = tiles.filter(
+    (t) => t.sys.contentType.sys.id === 'event',
+  ) as EventEntry[]
 
   return (
     <div className={styles.page}>
