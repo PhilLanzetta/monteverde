@@ -55,11 +55,6 @@
   color: inherit;
 }
 
-.eventTile:hover .eventImageWrap {
-  opacity: 0.6;
-  transition: all 400ms;
-}
-
 .eventTitle {
   font-family: var(--font-bodoni), Georgia, serif;
   font-size: clamp(55px, 12vw, 200px);
@@ -89,11 +84,6 @@
   padding: 60px 24px;
   text-decoration: none;
   color: inherit;
-}
-
-.pubTile:hover .pubImageWrap {
-  opacity: 0.6;
-  transition: all 400ms;
 }
 
 .pubImageWrap {
