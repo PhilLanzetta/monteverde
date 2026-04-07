@@ -29,7 +29,7 @@ export default function PressCollection({
               target='_blank'
               rel='noreferrer'
             >
-              Read
+              {(item.fields.buttonText as string | undefined) ?? 'Read'}
             </a>
           )}
         </div>

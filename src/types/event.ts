@@ -72,6 +72,7 @@ export type PressItemSkeleton = EntrySkeletonType<
     title: EntryFieldTypes.Text
     publication: EntryFieldTypes.Text
     link: EntryFieldTypes.Text
+    buttonText: EntryFieldTypes.Text
   },
   'pressItem'
 >
