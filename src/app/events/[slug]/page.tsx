@@ -38,6 +38,11 @@ export default async function EventPage({
     ? `https:${heroAsset.fields.file.url}`
     : null
 
+  const mobileHeroAsset = event.fields.mobileHeroImage as unknown as Asset
+  const mobileHeroUrl = mobileHeroAsset?.fields?.file?.url
+    ? `https:${mobileHeroAsset.fields.file.url}`
+    : null
+
   const modules = (event.fields.content as unknown as ContentModule[]) ?? []
 
   return (
@@ -49,8 +54,17 @@ export default async function EventPage({
             alt={event.fields.title as string}
             fill
             priority
-            className={styles.heroImg}
+            className={`${styles.heroImg} ${mobileHeroUrl ? styles.heroDesktop : ''}`}
           />
+          {mobileHeroUrl && (
+            <Image
+              src={mobileHeroUrl}
+              alt={event.fields.title as string}
+              fill
+              priority
+              className={`${styles.heroImg} ${styles.heroMobile}`}
+            />
+          )}
           <div className={styles.titleBlock}>
             <span className={styles.label}>EVENTS</span>
             <h1 className={styles.title}>{event.fields.title as string}</h1>

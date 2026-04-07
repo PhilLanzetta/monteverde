@@ -108,6 +108,7 @@ export type EventSkeleton = EntrySkeletonType<
     slug: EntryFieldTypes.Text
     date: EntryFieldTypes.Date
     heroImage: EntryFieldTypes.AssetLink
+    mobileHeroImage: EntryFieldTypes.AssetLink
     tileImage: EntryFieldTypes.AssetLink
     tileText: EntryFieldTypes.Text
     content: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<EntrySkeletonType>>
