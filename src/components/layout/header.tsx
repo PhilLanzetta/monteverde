@@ -120,7 +120,7 @@ function AnimatedWaveform({ isPlaying }: { isPlaying: boolean }) {
 
     const ro = new ResizeObserver(() => {
       resize()
-      if (!isPlaying) drawStatic(canvas, ctx)
+      if (!isPlaying) drawStatic(canvas!, ctx!)
     })
     ro.observe(canvas)
 
@@ -192,7 +192,36 @@ export default function Header({ audioUrl, audioCaption }: HeaderProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [volume, setVolume] = useState(1)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const wasPlayingRef = useRef(false)
   const pathname = usePathname()
+
+  // Listen for video play/pause events from the media carousel
+  useEffect(() => {
+    function onVideoPlaying() {
+      if (!audioRef.current) return
+      wasPlayingRef.current = isPlaying
+      if (isPlaying) {
+        audioRef.current.pause()
+        setIsPlaying(false)
+      }
+    }
+
+    function onVideoPaused() {
+      if (!audioRef.current) return
+      if (wasPlayingRef.current) {
+        audioRef.current.play().catch(() => {})
+        setIsPlaying(true)
+      }
+    }
+
+    window.addEventListener('video-playing', onVideoPlaying)
+    window.addEventListener('video-paused', onVideoPaused)
+
+    return () => {
+      window.removeEventListener('video-playing', onVideoPlaying)
+      window.removeEventListener('video-paused', onVideoPaused)
+    }
+  }, [isPlaying])
 
   function togglePlay() {
     if (!audioRef.current) return
@@ -212,7 +241,6 @@ export default function Header({ audioUrl, audioCaption }: HeaderProps) {
 
   return (
     <header className={`${styles.header} ${menuOpen ? styles.menuOpen : ''}`}>
-      {/* Hidden audio element */}
       {audioUrl && <audio ref={audioRef} src={audioUrl} loop preload='none' />}
 
       {/* ── Desktop layout ── */}
@@ -305,11 +333,12 @@ export default function Header({ audioUrl, audioCaption }: HeaderProps) {
               style={{ overflow: 'hidden' }}
             >
               <div className={styles.mobilePlayerControls}>
-                <button
+                <div
                   className={styles.playButton}
-                  aria-label={isPlaying ? 'Pause' : 'Play'}
                   onClick={togglePlay}
-                  disabled={!audioUrl}
+                  role='button'
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
+                  style={{ cursor: audioUrl ? 'pointer' : 'default' }}
                 >
                   {isPlaying ? (
                     <span className={styles.pauseIcon}>
@@ -319,7 +348,7 @@ export default function Header({ audioUrl, audioCaption }: HeaderProps) {
                   ) : (
                     <span className={styles.playTriangle} />
                   )}
-                </button>
+                </div>
                 <div className={styles.mobileDivider} />
                 <VolumeIcon />
                 <input

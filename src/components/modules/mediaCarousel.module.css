@@ -222,14 +222,14 @@
 /* ══ MOBILE ══ */
 @media (max-width: 767px) {
   .track {
-    padding: 0 40px;
+    padding: 0 12px;
   }
 
   .slide {
-    flex: 0 0 calc(100% - 80px);
+    flex: 0 0 calc(100% - 24px);
   }
 
   .caption {
-    padding: 16px 24px;
+    padding: 16px 12px;
   }
 }

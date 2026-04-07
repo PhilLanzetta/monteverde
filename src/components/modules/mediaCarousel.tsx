@@ -7,6 +7,14 @@ import type { Asset } from 'contentful'
 import type { MediaCarouselEntry } from '@/types/event'
 import styles from './mediaCarousel.module.css'
 
+// ── Custom events ─────────────────────────────────────
+function dispatchVideoPlaying() {
+  window.dispatchEvent(new CustomEvent('video-playing'))
+}
+function dispatchVideoPaused() {
+  window.dispatchEvent(new CustomEvent('video-paused'))
+}
+
 // ── URL detection ─────────────────────────────────────
 function getSourceType(url: string): 'vimeo' | 'youtube' | 'direct' {
   if (url.includes('vimeo.com')) return 'vimeo'
@@ -149,10 +157,12 @@ function VimeoVideoPlayer({
   src,
   poster,
   title,
+  isActive,
 }: {
   src: string
   poster?: string
   title?: string
+  isActive: boolean
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const playerRef = useRef<VimeoPlayer | null>(null)
@@ -212,18 +222,21 @@ function VimeoVideoPlayer({
       setIsPlaying(true)
       lastTimestamp.current = performance.now()
       rafRef.current = requestAnimationFrame(tick)
+      dispatchVideoPlaying()
     })
 
     player.on('pause', () => {
       playingRef.current = false
       setIsPlaying(false)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      dispatchVideoPaused()
     })
 
     player.on('ended', () => {
       playingRef.current = false
       setIsPlaying(false)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      dispatchVideoPaused()
     })
 
     return () => {
@@ -232,6 +245,13 @@ function VimeoVideoPlayer({
       player.destroy()
     }
   }, [src])
+
+  // Pause when slide becomes inactive
+  useEffect(() => {
+    if (!isActive && playingRef.current) {
+      playerRef.current?.pause()
+    }
+  }, [isActive])
 
   function onPlayPause() {
     if (!playerRef.current) return
@@ -288,11 +308,20 @@ function VimeoVideoPlayer({
 }
 
 // ── YouTube Player ────────────────────────────────────
-function YouTubeVideoPlayer({ src, title }: { src: string; title?: string }) {
+function YouTubeVideoPlayer({
+  src,
+  title,
+  isActive,
+}: {
+  src: string
+  title?: string
+  isActive: boolean
+}) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const playerRef = useRef<YT.Player | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number | null>(null)
+  const isPlayingRef = useRef(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState('0:00')
@@ -321,12 +350,16 @@ function YouTubeVideoPlayer({ src, title }: { src: string; title?: string }) {
           },
           onStateChange: (e: { data: number; target: YT.Player }) => {
             if (e.data === YT.PlayerState.PLAYING) {
+              isPlayingRef.current = true
               setIsPlaying(true)
               setDuration(formatTime(e.target.getDuration()))
               rafRef.current = requestAnimationFrame(tick)
+              dispatchVideoPlaying()
             } else {
+              isPlayingRef.current = false
               setIsPlaying(false)
               if (rafRef.current) cancelAnimationFrame(rafRef.current)
+              dispatchVideoPaused()
             }
           },
         },
@@ -347,6 +380,13 @@ function YouTubeVideoPlayer({ src, title }: { src: string; title?: string }) {
       playerRef.current?.destroy()
     }
   }, [videoId])
+
+  // Pause when slide becomes inactive
+  useEffect(() => {
+    if (!isActive && isPlayingRef.current) {
+      playerRef.current?.pauseVideo()
+    }
+  }, [isActive])
 
   function onPlayPause() {
     if (!playerRef.current) return
@@ -413,10 +453,12 @@ function DirectVideoPlayer({
   src,
   poster,
   title,
+  isActive,
 }: {
   src: string
   poster?: string
   title?: string
+  isActive: boolean
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
@@ -426,12 +468,20 @@ function DirectVideoPlayer({
   const [duration, setDuration] = useState('0:00')
   const [volume, setVolume] = useState(1)
 
+  // Pause when slide becomes inactive
+  useEffect(() => {
+    if (!isActive && videoRef.current && !videoRef.current.paused) {
+      videoRef.current.pause()
+    }
+  }, [isActive])
+
   function onPlayPause() {
     if (!videoRef.current) return
     if (isPlaying) {
       videoRef.current.pause()
     } else {
       videoRef.current.play()
+      dispatchVideoPlaying()
     }
     setIsPlaying(!isPlaying)
   }
@@ -477,7 +527,11 @@ function DirectVideoPlayer({
             if (!videoRef.current) return
             setDuration(formatTime(videoRef.current.duration))
           }}
-          onEnded={() => setIsPlaying(false)}
+          onPause={() => dispatchVideoPaused()}
+          onEnded={() => {
+            setIsPlaying(false)
+            dispatchVideoPaused()
+          }}
         />
       </div>
       <PlayerControls
@@ -501,20 +555,45 @@ function VideoPlayer({
   src,
   poster,
   title,
+  isActive,
 }: {
   src: string
   poster?: string
   title?: string
+  isActive: boolean
 }) {
   const type = getSourceType(src)
   if (type === 'vimeo')
-    return <VimeoVideoPlayer src={src} poster={poster} title={title} />
-  if (type === 'youtube') return <YouTubeVideoPlayer src={src} title={title} />
-  return <DirectVideoPlayer src={src} poster={poster} title={title} />
+    return (
+      <VimeoVideoPlayer
+        src={src}
+        poster={poster}
+        title={title}
+        isActive={isActive}
+      />
+    )
+  if (type === 'youtube')
+    return <YouTubeVideoPlayer src={src} title={title} isActive={isActive} />
+  return (
+    <DirectVideoPlayer
+      src={src}
+      poster={poster}
+      title={title}
+      isActive={isActive}
+    />
+  )
 }
 
 // ── Media Item ────────────────────────────────────────
-function MediaItem({ item, priority }: { item: any; priority?: boolean }) {
+function MediaItem({
+  item,
+  priority,
+  isActive,
+}: {
+  item: any
+  priority?: boolean
+  isActive: boolean
+}) {
   const type = item.sys.contentType.sys.id
 
   if (type === 'videoWrapper') {
@@ -527,6 +606,7 @@ function MediaItem({ item, priority }: { item: any; priority?: boolean }) {
         src={item.fields.videoLink as string}
         poster={posterUrl}
         title={item.fields.title as string | undefined}
+        isActive={isActive}
       />
     )
   }
@@ -566,6 +646,7 @@ export default function MediaCarousel({
   const trackRef = useRef<HTMLDivElement>(null)
   const [currentIndex, setCurrentIndex] = useState(items.length)
   const isJumping = useRef(false)
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const track = trackRef.current
@@ -574,39 +655,67 @@ export default function MediaCarousel({
     track.scrollLeft = itemWidth * items.length
   }, [])
 
+  function getItemWidth(): number {
+    const track = trackRef.current
+    if (!track) return 0
+    return track.scrollWidth / looped.length
+  }
+
+  function scrollToIndex(index: number) {
+    const track = trackRef.current
+    if (!track) return
+    const itemWidth = getItemWidth()
+    track.scrollTo({ left: itemWidth * index, behavior: 'smooth' })
+  }
+
   function onScroll() {
     const track = trackRef.current
     if (!track || isJumping.current) return
-    const itemWidth = track.scrollWidth / looped.length
+    const itemWidth = getItemWidth()
     const index = Math.round(track.scrollLeft / itemWidth)
     setCurrentIndex(index)
-    if (index <= 2) {
-      isJumping.current = true
-      track.scrollLeft += itemWidth * items.length
-      isJumping.current = false
-    } else if (index >= looped.length - 3) {
-      isJumping.current = true
-      track.scrollLeft -= itemWidth * items.length
-      isJumping.current = false
-    }
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current)
+    scrollTimeout.current = setTimeout(() => {
+      const track = trackRef.current
+      if (!track) return
+      const i = Math.round(track.scrollLeft / itemWidth)
+      if (i <= 2) {
+        isJumping.current = true
+        track.scrollLeft += itemWidth * items.length
+        isJumping.current = false
+      } else if (i >= looped.length - 3) {
+        isJumping.current = true
+        track.scrollLeft -= itemWidth * items.length
+        isJumping.current = false
+      }
+    }, 150)
   }
 
   const realIndex = currentIndex % items.length
   const caption = items[realIndex]?.fields?.caption as string | undefined
 
   return (
-    <>
-      <h2 className={styles.heading}>Media</h2>
-      <section className={styles.section}>
-        <div ref={trackRef} className={styles.track} onScroll={onScroll}>
-          {looped.map((item: any, i: number) => (
-            <div key={i} className={styles.slide}>
-              <MediaItem item={item} priority={i === items.length} />
-            </div>
-          ))}
-        </div>
-        {caption && <p className={styles.caption}>{caption}</p>}
-      </section>
-    </>
+    <section className={styles.section}>
+      <div ref={trackRef} className={styles.track} onScroll={onScroll}>
+        {looped.map((item: any, i: number) => (
+          <div
+            key={i}
+            className={styles.slide}
+            onClick={() => {
+              if (i < currentIndex) scrollToIndex(currentIndex - 1)
+              else if (i > currentIndex) scrollToIndex(currentIndex + 1)
+            }}
+            style={{ cursor: i !== currentIndex ? 'pointer' : 'default' }}
+          >
+            <MediaItem
+              item={item}
+              priority={i === items.length}
+              isActive={i === currentIndex}
+            />
+          </div>
+        ))}
+      </div>
+      {caption && <p className={styles.caption}>{caption}</p>}
+    </section>
   )
 }

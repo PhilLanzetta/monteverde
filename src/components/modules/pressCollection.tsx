@@ -1,5 +1,5 @@
 import type { PressCollectionEntry, PressItemEntry } from '@/types/event'
-import styles from './modules.module.css'
+import styles from './pressCollection.module.css'
 
 export default function PressCollection({
   entry,
@@ -9,27 +9,31 @@ export default function PressCollection({
   const items = (entry.fields.pressItems as unknown as PressItemEntry[]) ?? []
 
   return (
-    <section className={styles.pressCollection}>
-      <span className={styles.label}>Press</span>
-      <ul className={styles.pressList}>
-        {items.map((item) => (
-          <li key={item.sys.id} className={styles.pressItem}>
+    <section className={styles.section}>
+      <h2 className={styles.heading}>Press</h2>
+      <div className={styles.topBorder} />
+      {items.map((item) => (
+        <div key={item.sys.id} className={styles.item}>
+          <div className={styles.itemLeft}>
+            <p className={styles.title}>{item.fields.title as string}</p>
+            {item.fields.publication && (
+              <p className={styles.publication}>
+                {item.fields.publication as string}
+              </p>
+            )}
+          </div>
+          {item.fields.link && (
             <a
               href={item.fields.link as string}
+              className={styles.readBtn}
               target='_blank'
               rel='noreferrer'
-              className={styles.pressLink}
             >
-              <span className={styles.pressTitle}>
-                {item.fields.title as string}
-              </span>
-              <span className={styles.pressPublication}>
-                {item.fields.publicationName as string}
-              </span>
+              Read
             </a>
-          </li>
-        ))}
-      </ul>
+          )}
+        </div>
+      ))}
     </section>
   )
 }

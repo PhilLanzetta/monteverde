@@ -183,22 +183,14 @@
 /* ── Press Collection ── */
 .pressCollection {
   max-width: 720px;
-  margin: 0 auto;
-  padding: 60px 24px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
 }
 
 .pressList {
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-.pressItem {
-  border-bottom: 0.5px solid #ddd;
-}
-
-.pressItem:last-child {
-  border-bottom: none;
 }
 
 .pressLink {
@@ -253,6 +245,10 @@
   .pressLink {
     flex-direction: column;
     gap: 4px;
+  }
+
+  .pressCollection {
+    padding: 0 12px;
   }
 
   .bodyText,

@@ -1,0 +1,101 @@
+.section {
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
+  margin: 0 24px 80px;
+}
+
+.heading {
+  font-family: var(--font-bodoni), Georgia, serif;
+  text-align: center;
+  font-size: clamp(30px, 5vw, 100px);
+  font-weight: 400;
+  line-height: 0.8;
+  padding-top: 0.2em;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #000000;
+  max-width: 12ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topBorder {
+  width: 100%;
+  height: 1px;
+  background: #000;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 0px;
+  border-bottom: 1px solid #000;
+  gap: 24px;
+}
+
+.itemLeft {
+  display: flex;
+  flex-direction: column;
+  padding-right: 24px;
+  gap: 4px;
+}
+
+.title {
+  font-family: var(--font-bodoni), Georgia, serif;
+  font-size: clamp(20px, 2.2vw, 40px);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  margin: 0;
+}
+
+.publication {
+  font-size: clamp(20px, 2vw, 40px);
+  font-style: italic;
+  color: #000;
+  margin: 0;
+}
+
+.readBtn {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 8px 24px;
+  border: 1px solid #000;
+  font-size: 20px;
+  letter-spacing: 0.15em;
+  color: #000;
+  text-decoration: none;
+  font-family: var(--font-courier-prime), 'Courier New', monospace;
+  text-transform: uppercase;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.readBtn:hover {
+  background: #000;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .section {
+    margin: 0 12px 80px;
+  }
+
+  .item {
+    padding: 24px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .heading {
+    padding: 0 16px 5px;
+  }
+
+  .readBtn {
+    padding: 10px;
+    font-size: 15px;
+  }
+}

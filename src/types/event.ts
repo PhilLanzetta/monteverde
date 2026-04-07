@@ -70,7 +70,7 @@ export type MediaCarouselEntry = Entry<MediaCarouselSkeleton, undefined, string>
 export type PressItemSkeleton = EntrySkeletonType<
   {
     title: EntryFieldTypes.Text
-    publicationName: EntryFieldTypes.Text
+    publication: EntryFieldTypes.Text
     link: EntryFieldTypes.Text
   },
   'pressItem'
