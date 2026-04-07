@@ -9,6 +9,8 @@ export type HomePageSkeleton = EntrySkeletonType<
       EntryFieldTypes.EntryLink<EventSkeleton | PublicationSkeleton>
     >
     aboutBlurb: EntryFieldTypes.EntryLink<EntrySkeletonType>
+    audioFile: EntryFieldTypes.AssetLink
+    audioCaption: EntryFieldTypes.Text
   },
   'homePage'
 >

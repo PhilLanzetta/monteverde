@@ -68,17 +68,15 @@ function LogoSvg({ className }: { className?: string }) {
   )
 }
 
-// Base waveform shape — heights as fractions of max (0–1)
 const BASE_HEIGHTS = [
-  0.13, 0.22, 0.40, 0.62, 0.48, 0.30, 0.70, 0.88, 0.78, 0.52,
-  0.35, 0.82, 0.96, 0.65, 0.44, 0.26, 0.57, 0.92, 0.74, 0.48,
-  0.35, 0.78, 0.61, 0.39, 0.22, 0.17, 0.30, 0.52, 0.83, 1.00,
-  0.87, 0.61, 0.39, 0.26, 0.43, 0.74, 0.91, 0.78, 0.52, 0.35,
-  0.22, 0.48, 0.66, 0.84, 0.72, 0.44, 0.28, 0.60, 0.88, 0.76,
-  0.54, 0.36, 0.24, 0.46, 0.68, 0.90, 0.80, 0.58, 0.40, 0.20,
-];
+  0.13, 0.22, 0.4, 0.62, 0.48, 0.3, 0.7, 0.88, 0.78, 0.52, 0.35, 0.82, 0.96,
+  0.65, 0.44, 0.26, 0.57, 0.92, 0.74, 0.48, 0.35, 0.78, 0.61, 0.39, 0.22, 0.17,
+  0.3, 0.52, 0.83, 1.0, 0.87, 0.61, 0.39, 0.26, 0.43, 0.74, 0.91, 0.78, 0.52,
+  0.35, 0.22, 0.48, 0.66, 0.84, 0.72, 0.44, 0.28, 0.6, 0.88, 0.76, 0.54, 0.36,
+  0.24, 0.46, 0.68, 0.9, 0.8, 0.58, 0.4, 0.2,
+]
 
-function AnimatedWaveform() {
+function AnimatedWaveform({ isPlaying }: { isPlaying: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
   const offsetRef = useRef(0)
@@ -86,10 +84,8 @@ function AnimatedWaveform() {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
     const dpr = window.devicePixelRatio || 1
 
     function resize() {
@@ -103,20 +99,33 @@ function AnimatedWaveform() {
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
+    return () => {
+      cancelAnimationFrame(animRef.current)
+      ro.disconnect()
+    }
+  }, [])
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas?.getContext('2d')
+    if (!canvas || !ctx) return
+
+    if (!isPlaying) {
+      cancelAnimationFrame(animRef.current)
+      return
+    }
+
     function draw() {
       if (!canvas || !ctx) return
       const w = canvas.offsetWidth
       const h = canvas.offsetHeight
       ctx.clearRect(0, 0, w, h)
-
       const barCount = BASE_HEIGHTS.length
       const barWidth = 2
       const gap = (w - barCount * barWidth) / (barCount - 1)
       const maxBarH = h * 0.85
       const t = offsetRef.current
-
       for (let i = 0; i < barCount; i++) {
-        // Animate each bar with a sine wave offset per bar
         const wave = Math.sin(t * 0.04 + i * 0.4) * 0.25
         const barH = Math.max(2, (BASE_HEIGHTS[i] + wave) * maxBarH)
         const x = i * (barWidth + gap)
@@ -124,18 +133,13 @@ function AnimatedWaveform() {
         ctx.fillStyle = 'rgba(26, 26, 26, 0.75)'
         ctx.fillRect(x, y, barWidth, barH)
       }
-
       offsetRef.current += 1
       animRef.current = requestAnimationFrame(draw)
     }
 
     animRef.current = requestAnimationFrame(draw)
-
-    return () => {
-      cancelAnimationFrame(animRef.current)
-      ro.disconnect()
-    }
-  }, [])
+    return () => cancelAnimationFrame(animRef.current)
+  }, [isPlaying])
 
   return (
     <canvas
@@ -152,23 +156,39 @@ const NAV_LINKS = [
   { label: 'ABOUT', href: '/about' },
 ]
 
-const NOW_PLAYING = {
-  artists: 'Dev Hynes, Mati Diop, Manon Lutanie',
-  title: 'Naked blue',
+interface HeaderProps {
+  audioUrl?: string | null
+  audioCaption?: string
 }
 
-const WAVEFORM_HEIGHTS = [
-  6, 10, 18, 28, 22, 14, 32, 40, 36, 24, 16, 38, 44, 30, 20, 12, 26, 42, 34, 22,
-  16, 36, 28, 18, 10, 8, 14, 24, 38, 46, 40, 28, 18, 12, 20, 34, 42, 36, 24, 16,
-]
-
-export default function Header() {
+export default function Header({ audioUrl, audioCaption }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
-
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [volume, setVolume] = useState(1)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const pathname = usePathname()
+
+  function togglePlay() {
+    if (!audioRef.current) return
+    if (isPlaying) {
+      audioRef.current.pause()
+    } else {
+      audioRef.current.play()
+    }
+    setIsPlaying(!isPlaying)
+  }
+
+  function handleVolumeChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = parseFloat(e.target.value)
+    setVolume(val)
+    if (audioRef.current) audioRef.current.volume = val
+  }
 
   return (
     <header className={`${styles.header} ${menuOpen ? styles.menuOpen : ''}`}>
+      {/* Hidden audio element */}
+      {audioUrl && <audio ref={audioRef} src={audioUrl} loop preload='none' />}
+
       {/* ── Desktop layout ── */}
       <div className={styles.desktop}>
         <div className={`${styles.cell} ${styles.logo}`}>
@@ -177,23 +197,41 @@ export default function Header() {
           </Link>
         </div>
         <div className={`${styles.cell} ${styles.nowPlaying}`}>
-          <span>
-            {NOW_PLAYING.artists} – <em>{NOW_PLAYING.title}</em>
-          </span>
+          {audioCaption ? (
+            <span dangerouslySetInnerHTML={{ __html: audioCaption }} />
+          ) : null}
         </div>
-        <div className={`${styles.cell} ${styles.playCell}`}>
-          <button className={styles.playButton} aria-label='Play / Pause'>
+        <div
+          className={`${styles.cell} ${styles.playCell}`}
+          onClick={togglePlay}
+          role='button'
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+          style={{ cursor: audioUrl ? 'pointer' : 'default' }}
+        >
+          {isPlaying ? (
+            <span className={styles.pauseIcon}>
+              <span />
+              <span />
+            </span>
+          ) : (
             <span className={styles.playTriangle} />
-          </button>
+          )}
         </div>
         <div className={`${styles.cell} ${styles.volumeCell}`}>
           <VolumeIcon />
-          <div className={styles.volumeTrack}>
-            <div className={styles.volumeThumb} />
-          </div>
+          <input
+            type='range'
+            min='0'
+            max='1'
+            step='0.01'
+            value={volume}
+            onChange={handleVolumeChange}
+            className={styles.volumeSlider}
+            aria-label='Volume'
+          />
         </div>
         <div className={styles.waveformCell} aria-hidden='true'>
-          <AnimatedWaveform />
+          <AnimatedWaveform isPlaying={isPlaying} />
         </div>
         {NAV_LINKS.map(({ label, href }) => (
           <div key={label} className={`${styles.cell} ${styles.navCell}`}>
@@ -209,7 +247,6 @@ export default function Header() {
 
       {/* ── Mobile layout ── */}
       <div className={styles.mobile}>
-        {/* Top bar: logo + hamburger */}
         <div className={styles.mobileTopBar}>
           <Link href='/' className={styles.mobileLogo}>
             <LogoSvg className={styles.logoSvg} />
@@ -231,7 +268,6 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Expandable panel */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -242,25 +278,41 @@ export default function Header() {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               style={{ overflow: 'hidden' }}
             >
-              {/* Player controls row */}
               <div className={styles.mobilePlayerControls}>
-                <button className={styles.playButton} aria-label='Play / Pause'>
-                  <span className={styles.playTriangle} />
+                <button
+                  className={styles.playButton}
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
+                  onClick={togglePlay}
+                  disabled={!audioUrl}
+                >
+                  {isPlaying ? (
+                    <span className={styles.pauseIcon}>
+                      <span />
+                      <span />
+                    </span>
+                  ) : (
+                    <span className={styles.playTriangle} />
+                  )}
                 </button>
                 <div className={styles.mobileDivider} />
                 <VolumeIcon />
-                <div className={styles.volumeTrack}>
-                  <div className={styles.volumeThumb} />
-                </div>
+                <input
+                  type='range'
+                  min='0'
+                  max='1'
+                  step='0.01'
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  className={styles.volumeSlider}
+                  aria-label='Volume'
+                />
               </div>
 
-              {/* Track info + waveform row */}
               <div className={styles.mobilePlayerInfo}>
                 <div className={styles.mobileTrackInfo}>
-                  <div>
-                    <span>{NOW_PLAYING.artists} – </span>
-                    <em>{NOW_PLAYING.title}</em>
-                  </div>
+                  {audioCaption ? (
+                    <span dangerouslySetInnerHTML={{ __html: audioCaption }} />
+                  ) : null}
                 </div>
                 <div className={styles.mobileDivider} />
                 <div className={styles.mobileWaveformCell} aria-hidden='true'>
@@ -268,7 +320,6 @@ export default function Header() {
                 </div>
               </div>
 
-              {/* Nav links */}
               {NAV_LINKS.map(({ label, href }) => (
                 <Link
                   key={label}

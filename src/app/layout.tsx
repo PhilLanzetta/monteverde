@@ -5,6 +5,8 @@ import Footer from '@/components/layout/footer'
 import './globals.css'
 import localFont from 'next/font/local'
 import { Courier_Prime } from 'next/font/google'
+import { getHomePage } from '@/lib/home'
+import type { Asset } from 'contentful'
 
 const courierPrime = Courier_Prime({
   subsets: ['latin'],
@@ -34,11 +36,18 @@ export const metadata: Metadata = {
   description: 'Monteverde — Events, Publishing, Music',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const homePage = await getHomePage()
+  const audioAsset = homePage?.fields.audioFile as unknown as Asset
+  const audioUrl = audioAsset?.fields?.file?.url
+    ? `https:${audioAsset.fields.file.url}`
+    : null
+  const audioCaption = homePage?.fields.audioCaption as string | undefined
+
   return (
     <html
       lang='en'
@@ -69,7 +78,7 @@ export default function RootLayout({
             background: '#000',
           }}
         />
-        <Header />
+        <Header audioUrl={audioUrl} audioCaption={audioCaption} />
         <main>{children}</main>
         <Footer />
       </body>
