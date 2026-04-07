@@ -33,9 +33,9 @@
 }
 
 .standaloneBody {
-  font-size: clamp(15px, 2vw, 22px);
+  font-size: clamp(15px, 2vw, 20px);
   letter-spacing: 0.07em;
-  line-height: 1.8;
+  line-height: 1.5;
   color: #000000;
   white-space: pre-wrap;
 }

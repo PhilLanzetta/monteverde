@@ -48,7 +48,9 @@
 }
 
 .titleBlock {
-  padding: 60px 12px 0px 12px;
+  bottom: 50%;
+  transform: translateY(50%);
+  padding: 0px 12px 0px 12px;
 }
 
 }

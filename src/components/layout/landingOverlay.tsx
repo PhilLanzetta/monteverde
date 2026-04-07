@@ -59,12 +59,12 @@ export default function LandingOverlay() {
     fadingRef.current = true
     if (overlayRef.current) {
       overlayRef.current.style.opacity = '0'
-      overlayRef.current.style.transition = 'opacity 1s ease'
+      overlayRef.current.style.transition = 'opacity 400ms ease'
     }
     sessionStorage.setItem('overlayShown', 'true')
     setTimeout(() => {
       setGone(true)
-    }, 300)
+    }, 400)
   }
 
   if (!show || gone) return null
@@ -87,6 +87,7 @@ export default function LandingOverlay() {
             src='/logoAnimation.json'
             className={styles.player}
             onEvent={(event) => {
+              console.log('lottie event:', event, Date.now())
               if (event === 'complete') dismiss()
             }}
           />

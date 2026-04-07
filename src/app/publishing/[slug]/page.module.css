@@ -52,9 +52,9 @@
 }
 
 .heroDescription {
-  font-size: clamp(15px, 2vw, 22px);
+  font-size: clamp(15px, 2vw, 20px);
   letter-spacing: 0.07em;
-  line-height: 1.8;
+  line-height: 1.5;
   color: #000;
   white-space: pre-wrap;
 }
@@ -104,7 +104,7 @@
 
 .authorBio {
   font-size: clamp(13px, 1vw, 15px);
-  line-height: 1.8;
+  line-height: 1.5;
   color: #000;
   text-align: center;
   margin-bottom: 40px;
@@ -224,7 +224,8 @@
     line-height: 1.2;
   }
 
-  .authorName, .galleryHeading {
+  .authorName,
+  .galleryHeading {
     margin-bottom: 5px;
   }
 }

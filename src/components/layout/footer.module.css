@@ -10,8 +10,8 @@
 
 /* ── Logo mark ── */
 .logoMark {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   color: #000000;
 }
 .logoMark svg {
@@ -21,7 +21,7 @@
 
 /* ── Contact block ── */
 .contact {
-  font-size: clamp(15px, 1.64vw, 23px);
+  font-size: clamp(15px, 1.2vw, 23px);
   line-height: 1.5;
   letter-spacing: 0.07em;
   text-align: center;

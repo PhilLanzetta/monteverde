@@ -220,9 +220,14 @@ export default function Header() {
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
+            <div
+              className={`${styles.navIcon} ${menuOpen ? styles.hamburgerOpen : ''}`}
+            >
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
           </button>
         </div>
 

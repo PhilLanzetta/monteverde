@@ -1,10 +1,11 @@
 .label {
-  display: block;
-  font-size: 11px;
+  font-size: 20px;
   letter-spacing: 0.15em;
-  color: #888;
-  margin-bottom: 12px;
-  font-family: 'Oswald', sans-serif;
+  color: #000;
+  font-family: var(--font-courier-prime), 'Courier New', monospace;
+  text-align: center;
+  display: block;
+  text-transform: uppercase;
 }
 
 /* ── Heading and Text ── */
@@ -37,9 +38,9 @@
 
 .bodyText,
 .eventInfoText {
-  font-size: clamp(15px, 2vw, 22px);
+  font-size: clamp(15px, 2vw, 20px);
   letter-spacing: 0.07em;
-  line-height: 1.8;
+  line-height: 1.5;
   color: #000000;
   white-space: pre-wrap;
 }
@@ -237,6 +238,7 @@
   .eventImage {
     width: calc(100% - 32px);
     margin: 0 auto;
+    margin-top: 8px;
   }
 
   .eventInfo,
@@ -260,5 +262,9 @@
 
   .heading {
     max-width: none;
+  }
+
+  .label {
+    font-size: 15px;
   }
 }

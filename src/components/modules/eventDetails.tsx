@@ -14,7 +14,7 @@ export default function EventDetails({ entry }: { entry: EventDetailsEntry }) {
   return (
     <section className={styles.eventDetails}>
       <h2 className={styles.heading}>
-        Event Details
+        Details
       </h2>
       {imageUrl && (
         <div className={styles.eventImage}>
