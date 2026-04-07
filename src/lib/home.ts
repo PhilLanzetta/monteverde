@@ -6,7 +6,7 @@ export async function getHomePage(): Promise<HomePageEntry | null> {
     content_type: 'homePage',
     'fields.title': 'Home Page (only entry)',
     limit: 1,
-    include: 2,
+    include: 3,
   })
   return (entries.items[0] as HomePageEntry) ?? null
 }

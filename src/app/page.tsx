@@ -5,12 +5,19 @@ import type { EventEntry } from '@/types/event'
 import type { PublicationEntry } from '@/types/publication'
 import Tile from '@/components/ui/tile'
 import LandingOverlay from '@/components/layout/landingOverlay'
+import ColumnRenderer from '@/components/modules/columnRenderer'
+import type { TwoColumnContentEntry } from '@/types/about'
+import styles from './page.module.css'
 
 export const revalidate = 3600
 
 export default async function HomePage() {
   const page = await getHomePage()
   if (!page) notFound()
+
+  const aboutBlurb = page.fields
+    .aboutBlurb as unknown as TwoColumnContentEntry | null
+  const blurbColumns = (aboutBlurb?.fields?.columnContent as any[]) ?? []
 
   const tiles =
     (page.fields.tiles as unknown as (EventEntry | PublicationEntry)[]) ?? []
@@ -64,6 +71,13 @@ export default async function HomePage() {
 
           return null
         })}
+        {blurbColumns.length > 0 && (
+          <section className={styles.aboutBlurb}>
+            {blurbColumns.map((col: any) => (
+              <ColumnRenderer key={col.sys.id} entry={col} learnMore='/about' />
+            ))}
+          </section>
+        )}
       </div>
     </>
   )

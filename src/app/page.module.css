@@ -1,0 +1,15 @@
+.aboutBlurb {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 24px;
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+@media (max-width: 767px) {
+  .aboutBlurb {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    gap: 0;
+  }
+}

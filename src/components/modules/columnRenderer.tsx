@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import type { Asset } from 'contentful'
 import type { AboutHeadingAndTextEntry } from '@/types/about'
@@ -7,7 +8,15 @@ import styles from './columnRenderer.module.css'
 
 type ColumnEntry = AboutHeadingAndTextEntry | ImageWrapperEntry
 
-export default function ColumnRenderer({ entry }: { entry: ColumnEntry }) {
+interface ColumnRendererProps {
+  entry: ColumnEntry
+  learnMore?: string
+}
+
+export default function ColumnRenderer({
+  entry,
+  learnMore,
+}: ColumnRendererProps) {
   const type = entry.sys.contentType.sys.id
 
   if (type === 'headingAndText') {
@@ -29,6 +38,11 @@ export default function ColumnRenderer({ entry }: { entry: ColumnEntry }) {
           <div className={styles.columnBody}>
             <ReactMarkdown>{bodyText as string}</ReactMarkdown>
           </div>
+        )}
+        {learnMore && (
+          <Link href={learnMore} className={styles.learnMore}>
+            Learn More
+          </Link>
         )}
       </div>
     )

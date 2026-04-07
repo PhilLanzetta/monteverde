@@ -8,6 +8,7 @@ export type HomePageSkeleton = EntrySkeletonType<
     tiles: EntryFieldTypes.Array<
       EntryFieldTypes.EntryLink<EventSkeleton | PublicationSkeleton>
     >
+    aboutBlurb: EntryFieldTypes.EntryLink<EntrySkeletonType>
   },
   'homePage'
 >

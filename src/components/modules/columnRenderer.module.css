@@ -29,13 +29,14 @@
 }
 
 .columnBody {
+  font-family:
+    'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
   font-size: clamp(15px, 2vw, 22px);
   letter-spacing: 0.07em;
   line-height: 1.8;
   color: #000000;
   white-space: pre-wrap;
 }
-
 
 /* ── Image column ── */
 .columnImage {
@@ -58,6 +59,26 @@
   margin: 0;
 }
 
+.learnMore {
+  display: inline-block;
+  padding: 10px 28px;
+  border: 1px solid #000000;
+  font-size: 20px;
+  letter-spacing: 0.15em;
+  color: #000;
+  text-decoration: none;
+  font-family: var(--font-courier-prime), 'Courier New', monospace;
+  text-transform: uppercase;
+  margin-top: 24px;
+  transition: all 400ms;
+}
+
+.learnMore:hover {
+  background: #000000;
+  color: #fff;
+  transition: all 400ms;
+}
+
 /* ══ MOBILE ═══════════════════════════════════════════ */
 @media (max-width: 767px) {
   .columnText {
@@ -78,5 +99,11 @@
 
   .label {
     font-size: 15px;
+  }
+
+  .learnMore {
+    padding: 10px;
+    font-size: 15px;
+    margin-top: 16px;
   }
 }
