@@ -46,10 +46,21 @@ export type FeaturedArtistsEntry = Entry<
   string
 >
 
+// ── Video Wrapper ─────────────────────────────────────
+export type VideoWrapperSkeleton = EntrySkeletonType<
+  {
+    videoLink: EntryFieldTypes.Text
+    posterImage: EntryFieldTypes.AssetLink
+    caption: EntryFieldTypes.Text
+  },
+  'videoWrapper'
+>
+export type VideoWrapperEntry = Entry<VideoWrapperSkeleton, undefined, string>
+
 // ── Media Carousel ────────────────────────────────────
 export type MediaCarouselSkeleton = EntrySkeletonType<
   {
-    media: EntryFieldTypes.Array<EntryFieldTypes.AssetLink>
+    media: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<EntrySkeletonType>>
   },
   'mediaCarousel'
 >

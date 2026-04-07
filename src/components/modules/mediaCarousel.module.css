@@ -1,0 +1,235 @@
+.section {
+  width: 100%;
+  font-family: 'Baskerville', 'Baskerville Old Face', Georgia, serif;
+}
+
+.heading {
+  font-family: var(--font-bodoni), Georgia, serif;
+  text-align: center;
+  font-size: clamp(30px, 5vw, 100px);
+  font-weight: 400;
+  line-height: 0.8;
+  padding-top: 0.2em;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #000000;
+  max-width: 12ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Track ── */
+.track {
+  display: flex;
+  align-items: stretch;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 10px;
+  /* Peek: padding shows edges of adjacent slides */
+  padding: 0 80px;
+  box-sizing: border-box;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Each slide ── */
+.slide {
+  flex: 0 0 calc(100% - 160px);
+  scroll-snap-align: center;
+  min-width: 0;
+}
+
+/* ── Image item ── */
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* ── Video player ── */
+.videoWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.playerWrapper {
+  position: absolute;
+  inset: 0;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+  object-fit: cover;
+}
+
+.videoControls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px 10px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+}
+
+.videoTitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.progressBar {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #fff;
+}
+
+.progressThumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: none;
+}
+
+.controlsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timeDisplay {
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  font-family: 'Courier New', monospace;
+  min-width: 80px;
+}
+
+.centerControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 80px;
+  justify-content: flex-end;
+}
+
+.controlBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playIcon {
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 0 7px 12px;
+  border-color: transparent transparent transparent #fff;
+}
+
+.pauseIcon {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.pauseIcon span {
+  display: block;
+  width: 3px;
+  height: 13px;
+  background: #fff;
+}
+
+.volumeSlider {
+  width: 60px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: rgba(255,255,255,0.5);
+  outline: none;
+  cursor: pointer;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.volumeSlider::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── Caption ── */
+.caption {
+  text-align: center;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.7;
+  color: #000;
+  padding: 24px 48px;
+  margin: 0;
+}
+
+/* ══ MOBILE ══ */
+@media (max-width: 767px) {
+  .track {
+    padding: 0 40px;
+  }
+
+  .slide {
+    flex: 0 0 calc(100% - 80px);
+  }
+
+  .caption {
+    padding: 16px 24px;
+  }
+}
