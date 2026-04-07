@@ -31,8 +31,6 @@
   transition: all 400ms;
 }
 
-.eventTile:hover .learnMore,
-.pubTile:hover .learnMore,
 .learnMore:hover {
   background: #000000;
   color: #fff;
