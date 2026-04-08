@@ -1,7 +1,9 @@
 .section {
   font-family:
     'Baskerville', 'Baskerville Old Face', 'Libre Baskerville', Georgia, serif;
-  margin: 0 24px 80px;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 80px;
 }
 
 .heading {
@@ -43,7 +45,7 @@
 
 .title {
   font-family: var(--font-bodoni), Georgia, serif;
-  font-size: clamp(20px, 2.2vw, 40px);
+  font-size: clamp(20px, 1.9vw, 40px);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -52,7 +54,7 @@
 }
 
 .publication {
-  font-size: clamp(20px, 2vw, 40px);
+  font-size: clamp(20px, 1.7vw, 40px);
   font-style: italic;
   color: #000;
   margin: 0;
@@ -81,6 +83,7 @@
 
 @media (max-width: 767px) {
   .section {
+    width: auto;
     margin: 0 12px 80px;
   }
 
