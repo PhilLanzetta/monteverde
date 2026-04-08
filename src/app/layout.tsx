@@ -34,6 +34,9 @@ const bodoni = localFont({
 export const metadata: Metadata = {
   title: 'Monteverde',
   description: 'Monteverde — Events, Publishing, Music',
+  icons: {
+    icon: '/MONTEVERDE_FAVICON.svg',
+  },
 }
 
 export default async function RootLayout({

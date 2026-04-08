@@ -28,7 +28,7 @@ export async function generateMetadata({
   const { slug } = await params
   const publication = await getPublicationBySlug(slug)
   if (!publication) return {}
-  return { title: `${publication.fields.title} — Monteverde` }
+  return { title: `${publication.fields.title} | Monteverde` }
 }
 
 function GalleryImage({ wrapper }: { wrapper: ImageWrapperEntry }) {

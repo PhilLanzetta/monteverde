@@ -21,7 +21,7 @@ export async function generateMetadata({
   const { slug } = await params
   const event = await getEventBySlug(slug)
   if (!event) return {}
-  return { title: `${event.fields.title} — Monteverde` }
+  return { title: `${event.fields.title} | Monteverde` }
 }
 
 export default async function EventPage({
