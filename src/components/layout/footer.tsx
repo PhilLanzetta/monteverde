@@ -6,8 +6,7 @@ const CONTACT = {
   pressEmail: 'press@monteverde-productions.com',
 }
 
-const LEGAL =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec ante nulla. Cras ut mauris eget leo interdum pulvinar non porttitor dui.'
+const LEGAL = `© Monteverde Productions ${new Date().getFullYear()}`
 
 export default function Footer() {
   return (
