@@ -69,7 +69,14 @@ export default async function RootLayout({
           id='blocker-init'
           strategy='beforeInteractive'
           dangerouslySetInnerHTML={{
-            __html: `if(sessionStorage.getItem('overlayShown')){document.getElementById('initial-blocker').style.display='none';}`,
+            __html: `
+      var shown = sessionStorage.getItem('overlayShown');
+      var isHome = window.location.pathname === '/';
+      if (shown || !isHome) {
+        var b = document.getElementById('initial-blocker');
+        if (b) b.style.display = 'none';
+      }
+    `,
           }}
         />
         <div
