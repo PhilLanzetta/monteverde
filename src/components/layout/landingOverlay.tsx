@@ -49,6 +49,18 @@ export default function LandingOverlay() {
     if (gone) unlockScroll()
   }, [gone])
 
+  useEffect(() => {
+    function onVisibilityChange() {
+      if (document.visibilityState === 'visible') {
+        const blocker = document.getElementById('initial-blocker')
+        if (blocker) blocker.style.display = 'none'
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () =>
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+  }, [])
+
   function handleImageLoad() {
     removeBlocker()
     setImageLoaded(true)
