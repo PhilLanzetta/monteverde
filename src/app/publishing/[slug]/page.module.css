@@ -78,6 +78,16 @@
   transition: all 400ms;
 }
 
+.heroFull {
+  grid-template-columns: 1fr;
+}
+
+.heroFull .heroLeft {
+  margin: 0 auto;
+  width: 70%;
+  border-right: none;
+}
+
 /* ── Authors ── */
 .author {
   display: flex;
@@ -186,6 +196,10 @@
 
   .heroLeft {
     padding: 48px 12px;
+  }
+
+  .heroFull .heroLeft {
+    width: 100%;
   }
 
   .heroRight {

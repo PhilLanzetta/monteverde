@@ -73,7 +73,9 @@ export default async function PublicationPage({
   return (
     <article className={styles.page}>
       {/* ── Hero: two columns ── */}
-      <section className={styles.hero}>
+      <section
+        className={`${styles.hero} ${heroImages.length === 0 ? styles.heroFull : ''}`}
+      >
         <div className={styles.heroLeft}>
           <span className={styles.label}>PUBLISHING</span>
           <h1
